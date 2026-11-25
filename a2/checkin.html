@@ -87,13 +87,14 @@
 (function(){
   // 站点
   var qs = new URLSearchParams(location.search);
-  var sid = qs.get('s') || qs.get('station') || 'ruijin';
-  var st = CZ.station(sid) || CZ.STATIONS[0];
-  if (!CZ.station(sid)) {
-    var pick = prompt('未识别站点，请输入站点编号（1—6）：', '1');
-    var idx = Math.max(1, Math.min(6, parseInt(pick || '1', 10))) - 1;
-    st = CZ.STATIONS[idx];
+  var raw = qs.get('s') || qs.get('station') || location.hash.replace(/^#/, '') || '';
+  raw = decodeURIComponent(raw).replace(/^s=/, '').trim();
+  var st = CZ.station(raw);
+  if (!st) {
+    var idx = parseInt(raw, 10);
+    if (!isNaN(idx) && idx >= 1 && idx <= 6) st = CZ.STATIONS[idx - 1];
   }
+  if (!st) st = CZ.STATIONS[0];
 
   document.getElementById('stTag').textContent = 'STATION ' + st.no + ' / 06 · ' + st.date;
   document.getElementById('stName').textContent = st.name;
