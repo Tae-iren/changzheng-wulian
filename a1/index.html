@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11100E">
+<meta name="format-detection" content="telephone=no">
+<title>长征·智联 数字展馆 | 2024级物联网工程团支部</title>
+<meta name="description" content="把纪念馆搬进专业实验室。用二维码、NFC 贴片与现成智能设备重走二万五千里：瑞金出发、湘江战役、遵义会议、四渡赤水、巧渡金沙江、飞夺泸定桥、翻越夹金山、穿越草地、会宁会师。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%2311100E'/%3E%3Cpath d='M12 46 L26 30 L38 38 L52 16' stroke='%23C2402C' stroke-width='4' fill='none'/%3E%3Ccircle cx='52' cy='16' r='5' fill='%23BE8C46'/%3E%3C/svg%3E">
+<style>
+/* ============ 设计令牌 ============ */
+:root{
+  --ink:#11100E; --ink-2:#191714; --ink-3:#24211D;
+  --paper:#EFE7D8; --paper-2:#F7F2E6; --paper-line:#D6CCB9;
+  --red:#A92D20; --red-2:#C2402C; --red-deep:#7E1F16;
+  --gold:#BE8C46;
+  --steel:#8397A4;
+  /* 扩展色：赭石 / 朱砂墨 / 暖纸 / 金二档 */
+  --ochre:#9A6236; --cinnabar:#6E1A12; --paper-3:#F3EADA; --gold-2:#D2A25E; --steel-2:#6C818D;
+  --tx:#241F19; --tx-dim:#6E6355; --tx-faint:#9C9184;
+  --onink:#EDE5D8; --onink-dim:#A79C8D;
+  /* 字体栈：本地系统字体优先，webfont 仅作增强，保证手机端回退后层级仍然成立 */
+  --serif:"Songti SC","Source Han Serif SC","Noto Serif SC","STSong",serif;
+  --sans:"PingFang SC","Noto Sans SC","Microsoft YaHei","Heiti SC",sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  /* 标题用站酷小薇（书卷气的细宋），引文用楷体 */
+  --display:"ZCOOL XiaoWei","Songti SC","Source Han Serif SC","Noto Serif SC",serif;
+  --kai:KaiTi,"STKaiti","Kaiti SC","Songti SC",serif;
+  --pad:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--ink); color:var(--tx);
+  font-family:var(--sans); font-size:16px; line-height:1.75;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img{display:block; max-width:100%}
+h1,h2{margin:0; font-family:var(--display); font-weight:600; line-height:1.26; letter-spacing:.03em}
+h3,h4{margin:0; font-family:var(--serif); font-weight:600; line-height:1.28; letter-spacing:.01em}
+p{margin:0}
+a{color:inherit}
+button{font-family:inherit; cursor:pointer}
+::selection{background:var(--red); color:#fff}
+
+/* 纸纹与暗部质感（装饰层，不裁切正文） */
+.grain{position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.05; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");}
+
+/* ============ 顶部导览 ============ */
+.topbar{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; gap:14px;
+  padding:10px 18px; background:rgba(17,16,14,.72); backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(237,229,216,.12); transition:background .4s ease, border-color .4s ease}
+.topbar.scrolled{background:rgba(17,16,14,.9); border-bottom-color:rgba(237,229,216,.2)}
+.prog{position:absolute; left:0; bottom:-1px; height:2px; width:100%; background:var(--red-2);
+  transform:scaleX(0); transform-origin:0 50%; will-change:transform; opacity:.9}
+.brand{display:flex; align-items:center; gap:9px; flex:none; color:var(--onink); text-decoration:none}
+.brand .mk{width:22px; height:22px; flex:none; transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.brand:hover .mk{transform:rotate(-8deg)}
+.brand b{font-family:var(--serif); font-size:15px; font-weight:600; letter-spacing:.06em}
+.brand span{font-size:10.5px; color:var(--onink-dim); letter-spacing:.18em; font-family:var(--mono)}
+.topnav{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none}
+.topnav::-webkit-scrollbar{display:none}
+.topnav a{position:relative; flex:none; padding:7px 12px; font-size:13px; color:var(--onink-dim); text-decoration:none;
+  border-radius:2px; white-space:nowrap; transition:color .25s}
+.topnav a::after{content:""; position:absolute; left:12px; right:12px; bottom:2px; height:2px; background:var(--red-2);
+  transform:scaleX(0); transform-origin:50% 50%; transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.topnav a:hover{color:var(--onink)}
+.topnav a:hover::after{transform:scaleX(.55)}
+.topnav a.on{color:#fff}
+.topnav a.on::after{transform:scaleX(1)}
+@media (max-width:980px){
+  .brand span{display:none}
+  .topnav a{padding:7px 9px; font-size:12.5px}
+  .topnav a::after{left:9px; right:9px}
+}
+
+/* ============ 序厅 ============ */
+.hero{position:relative; min-height:620px; height:100svh; display:flex; flex-direction:column; justify-content:flex-end;
+  background:var(--ink); overflow:hidden; padding:96px 0 0}
+.hero-par{position:absolute; inset:-12% 0 -6%; will-change:transform}
+.hero-media{position:absolute; inset:0; will-change:transform;
+  animation:kenburns 26s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1.02)} to{transform:scale(1.1) translate3d(-1.4%,-1.2%,0)}}
+.hero-media img{width:100%; height:100%; object-fit:cover; object-position:50% 38%;
+  filter:grayscale(.45) contrast(1.05) brightness(.62); will-change:transform}
+.hero-media::after{content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(120% 80% at 78% 8%, rgba(194,64,44,.28), transparent 55%),
+    linear-gradient(180deg, rgba(17,16,14,.55) 0%, rgba(17,16,14,.18) 34%, rgba(17,16,14,.86) 82%, var(--ink) 100%);}
+.hero-route{position:absolute; inset:0; z-index:1; width:100%; height:100%; opacity:.9}
+.hero-route path.rail{fill:none; stroke:rgba(237,229,216,.22); stroke-width:1.1}
+.hero-route path.trace{fill:none; stroke:var(--red-2); stroke-width:2.4; stroke-dasharray:100; stroke-dashoffset:100;
+  animation:draw 5.6s cubic-bezier(.4,.02,.2,1) .4s forwards}
+.hero-route circle.pt{fill:var(--gold); opacity:0; animation:lit .6s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes lit{to{opacity:.95}}
+.hero-inner{position:relative; z-index:2; padding:0 var(--pad) 36px; max-width:1240px; margin:0 auto; width:100%}
+.kicker{display:flex; align-items:center; gap:10px; color:var(--onink-dim); font-family:var(--mono); font-size:11.5px; letter-spacing:.22em}
+.kicker i{display:block; width:0; height:1px; background:var(--red-2); animation:linein .9s cubic-bezier(.2,.7,.2,1) .1s forwards}
+@keyframes linein{to{width:34px}}
+.hero-title{margin:16px 0 0; color:#F4EDE0; font-size:clamp(40px,8.6vw,92px); line-height:1.06; letter-spacing:.05em;
+  opacity:0; animation:rise 1.15s cubic-bezier(.2,.7,.2,1) .1s both}
+@keyframes rise{from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:none}}
+.hero-title em{font-style:normal; color:var(--gold)}
+.hero-side{display:flex; align-items:flex-end; justify-content:space-between; gap:20px; margin-top:20px;
+  border-top:1px solid rgba(237,229,216,.2); padding-top:15px}
+.hero-lede{max-width:34em; color:#DCD2C2; font-size:15.5px; line-height:1.8; flex:1 1 auto}
+.hero-lede b{color:#fff; font-weight:500}
+.seal{flex:none; width:74px; border:1.5px solid var(--red-2); color:var(--red-2); padding:8px 6px; text-align:center;
+  font-family:var(--serif); font-size:12.5px; line-height:1.35; letter-spacing:.14em; opacity:0;
+  animation:stamp .5s cubic-bezier(.2,1.4,.4,1) 1.35s forwards}
+@keyframes stamp{0%{opacity:0; transform:scale(1.6) rotate(-8deg)} 100%{opacity:1; transform:scale(1) rotate(0)}}
+.hero-meta{position:relative; z-index:2; max-width:1240px; margin:0 auto; width:100%; padding:0 var(--pad);
+  display:grid; grid-template-columns:1fr; gap:0; border-top:1px solid rgba(237,229,216,.16)}
+.hero-meta div{padding:11px 0; border-bottom:1px solid rgba(237,229,216,.1);
+  display:flex; gap:12px; align-items:baseline; font-size:12px; color:var(--onink-dim)}
+.hero-meta div b{color:var(--onink); font-weight:500; font-family:var(--serif); letter-spacing:.04em; flex:none}
+.hero-scroll{position:relative; z-index:2; max-width:1240px; margin:0 auto; width:100%; padding:14px var(--pad) 18px;
+  color:var(--onink-dim); font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; display:flex; gap:8px; align-items:center}
+.hero-scroll .ln{position:relative; width:1px; height:28px; background:rgba(237,229,216,.35); overflow:hidden}
+.hero-scroll .ln::after{content:""; position:absolute; left:0; top:-6px; width:1px; height:7px; background:var(--gold);
+  animation:drip 2.4s cubic-bezier(.4,0,.6,1) infinite}
+@keyframes drip{0%{top:-6px} 70%,100%{top:28px}}
+
+/* ============ 通用纸面章节 ============ */
+.room{background:var(--paper); color:var(--tx); position:relative}
+.room.dark{background:var(--ink); color:var(--onink)}
+.wrap{max-width:1240px; margin:0 auto; padding:60px var(--pad)}
+.chap{display:grid; grid-template-columns:auto 1fr; gap:15px; align-items:start; margin-bottom:32px}
+.chap .no{font-family:var(--serif); font-size:13px; color:var(--red); letter-spacing:.1em; writing-mode:vertical-rl;
+  border-left:2px solid var(--red); padding:0 6px 2px 8px; height:4.2em; display:flex; align-items:center}
+.chap .no.on-dark{color:var(--gold); border-left-color:var(--gold)}
+.chap h2{font-size:clamp(25px,3.9vw,36px); letter-spacing:.015em; line-height:1.25}
+.chap .sub{margin-top:9px; font-size:14px; color:var(--tx-dim); max-width:44em; line-height:1.8}
+.room.dark .chap .sub{color:var(--onink-dim)}
+.chap .rule{height:1px; background:var(--paper-line); margin-top:16px; transform-origin:0 50%}
+.room.dark .chap .rule{background:rgba(237,229,216,.18)}
+
+/* 序厅导语 */
+.prologue{display:grid; grid-template-columns:1fr; gap:26px}
+.prologue-lead{font-family:var(--serif); font-size:clamp(18px,2.5vw,23px); line-height:1.72; letter-spacing:.01em}
+.prologue-lead em{font-style:normal; color:var(--red); box-shadow:inset 0 -7px 0 rgba(169,45,32,.14)}
+.prologue-copy{font-size:14.5px; color:#3B342B; line-height:1.9}
+.prologue-copy p+p{margin-top:13px}
+.prologue-copy .note{font-size:12.5px; color:var(--tx-faint); border-left:1px solid var(--paper-line); padding-left:12px}
+.figures{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--paper-line); border:1px solid var(--paper-line); margin-top:6px}
+.figures div{background:var(--paper); padding:17px 13px; transition:background .35s ease}
+.figures div:hover{background:#F5EFE2}
+.figures .num{font-family:var(--display); font-size:clamp(20px,4.2vw,32px); color:var(--red); line-height:1.1}
+.figures .num span{font-size:12.5px; font-family:var(--sans); color:var(--tx-dim); margin-left:4px}
+.figures .lb{font-size:11.5px; color:var(--tx-dim); margin-top:7px; line-height:1.55}
+
+/* 序厅 · 大事记时间轴 */
+.tl{margin-top:34px; border-top:1px solid var(--paper-line); padding-top:20px}
+.tl-h{font-size:11.5px; letter-spacing:.16em; color:var(--tx-faint); font-family:var(--mono); margin-bottom:16px}
+.tl-track{display:grid; grid-template-columns:1fr; gap:0}
+.tl-item{display:grid; grid-template-columns:64px 14px 1fr; align-items:center; gap:10px; padding:9px 0; min-height:44px}
+.tl-item .t{font-family:var(--mono); font-size:11.5px; color:var(--red); text-align:right; white-space:nowrap}
+.tl-dot{position:relative; justify-self:center; width:7px; height:7px; border-radius:50%; background:var(--red); z-index:1}
+.tl-dot::before{content:""; position:absolute; left:50%; top:-16px; bottom:-16px; width:1px; background:var(--paper-line); transform:translateX(-50%); z-index:-1}
+.tl-item:first-child .tl-dot::before{top:50%}
+.tl-item:last-child .tl-dot::before{bottom:50%}
+.tl-item .e{font-size:13.5px; line-height:1.6}
+.tl-item .e b{font-family:var(--serif); font-weight:600; margin-right:6px}
+.tl-item .e i{font-style:normal; color:var(--tx-dim); font-size:12.5px; margin-left:6px}
+
+/* 滚动入场（默认可见，脚本就位后才启用） */
+.rv{opacity:0; transform:translateY(12px);
+  transition:opacity .75s ease var(--d,0s), transform .75s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.rv.in{opacity:1; transform:none}
+.rv .rule{transform:scaleX(0); transform-origin:0 50%; transition:transform 1s cubic-bezier(.2,.7,.2,1) .1s}
+.rv.in .rule{transform:scaleX(1)}
+
+@media (max-width:719px){
+  .map-layout{grid-template-columns:minmax(0,1fr); min-width:0}
+  .map-stage{overflow-x:auto; -webkit-overflow-scrolling:touch; width:100%; max-width:100%; min-width:0}
+  .map-svg{width:740px; min-width:0; max-width:none}
+  .map-stage .cap{position:static; padding:4px 6px 0}
+}
+@media (min-width:720px){
+  :root{--pad:32px}
+  .hero-meta{grid-template-columns:repeat(3,1fr)}
+  .hero-meta div{border-bottom:0; border-left:1px solid rgba(237,229,216,.12); padding-left:16px}
+  .hero-meta div:first-child{border-left:0; padding-left:0}
+  .prologue{grid-template-columns:1.15fr .85fr; gap:44px; align-items:start}
+  .hero-side{align-items:center}
+}
+@media (min-width:980px){
+  .wrap{padding:80px var(--pad)}
+  .tl-track{grid-template-columns:repeat(2,1fr); gap:0 40px}
+  .figures div{padding:22px 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-route path.trace{animation:none; stroke-dashoffset:0}
+  .hero-route circle.pt{animation:none; opacity:.95}
+  .hero-title{clip-path:none; animation:none}
+  .seal{animation:none; opacity:1}
+  .hero-scroll .ln::after{animation:none}
+  .hero-media{animation:none}
+  .kicker i{width:34px; animation:none}
+  .rv{opacity:1; transform:none; transition:none}
+  html{scroll-behavior:auto}
+}
+
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="brand" href="#hall-0">
+    <svg class="mk" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="3" fill="#A92D20"/><path d="M5 24 L13 15 L19 19 L27 7" stroke="#EFE7D8" stroke-width="2" fill="none"/><circle cx="27" cy="7" r="2.4" fill="#BE8C46"/></svg>
+    <b>长征·智联</b><span>DIGITAL MUSEUM</span>
+  </a>
+  <nav class="topnav" aria-label="展厅导览">
+    <a href="#hall-0" class="on">序厅</a>
+    <a href="#hall-hero">英雄谱</a>
+    <a href="#hall-1">数字行军图</a>
+    <a href="#hall-2">智联装置</a>
+    <a href="#hall-3">数据长廊</a>
+    <a href="#hall-4">精神与青年</a>
+    <a href="#hall-5">留言墙</a>
+    <a href="#hall-passport">电子护照</a>
+    <a href="#hall-6">尾厅</a>
+  </nav>
+  <span class="prog" id="prog" aria-hidden="true"></span>
+</header>
+
+<!-- ============ 序厅 ============ -->
+<section class="hero" id="hall-0">
+  <div class="hero-par"><div class="hero-media"><img src="assets/jiajin_wide.jpg" alt="夹金山雪线，1935年6月中央红军翻越的第一座大雪山" fetchpriority="high"></div></div>
+  <svg class="hero-route" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" pathLength="100">
+    <path class="rail" d="M980 470 L830 452 L688 424 L600 396 L470 340 L404 300 L336 224 L268 128 L190 70"/>
+    <path class="trace" pathLength="100" d="M980 470 L830 452 L688 424 L600 396 L470 340 L404 300 L336 224 L268 128 L190 70"/>
+    <circle class="pt" cx="980" cy="470" r="4" style="animation-delay:1.0s"/>
+    <circle class="pt" cx="830" cy="452" r="4" style="animation-delay:2.1s"/>
+    <circle class="pt" cx="688" cy="424" r="4" style="animation-delay:2.9s"/>
+    <circle class="pt" cx="600" cy="396" r="4" style="animation-delay:3.5s"/>
+    <circle class="pt" cx="470" cy="340" r="4" style="animation-delay:4.3s"/>
+    <circle class="pt" cx="404" cy="300" r="4" style="animation-delay:5.0s"/>
+    <circle class="pt" cx="336" cy="224" r="4" style="animation-delay:5.5s"/>
+    <circle class="pt" cx="268" cy="128" r="4" style="animation-delay:6.2s"/>
+    <circle class="pt" cx="190" cy="70" r="4.6" style="animation-delay:6.9s"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="kicker"><i></i><span>1934.10 — 1936.10</span></div>
+    <h1 class="hero-title">长征<em>·</em>智联</h1>
+    <div class="hero-side">
+      <p class="hero-lede">把纪念馆搬进专业实验室。<b>一个二维码、一枚 NFC 贴片、一台现成智能设备</b>，重走二万五千里——九个关键节点、一本电子护照、一面留言墙，组成一座点得开、碰得到、带得走的数字展馆。</p>
+      <div class="seal">数字<br>展馆</div>
+    </div>
+  </div>
+  <div class="hero-meta">
+    <div><b>主办</b><span>泉州师范学院 数学与计算机科学学院<br>2024级物联网工程团支部</span></div>
+    <div><b>展期</b><span>2026年11月 — 12月<br>数字展馆体验日另行公告</span></div>
+    <div><b>地点</b><span>泉州师范学院<br>物联网工程专业实验室</span></div>
+  </div>
+  <div class="hero-scroll"><span class="ln"></span><span>SCROLL · 入馆</span></div>
+</section>
+
+<!-- ============ 序厅导语 ============ -->
+<section class="room">
+  <div class="wrap">
+    <div class="chap">
+      <span class="no">序</span>
+      <div>
+        <h2>不只看展，更要动手做展</h2>
+        <p class="sub">这是一座由团员自己写出来、排出来、讲出来的展馆：内容组考据史实，前端组绘制行军图，现场组用现成设备把雪山与草地的体感搬进实验室——不用开发板，一枚贴片、一台家电就能开馆。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+    <div class="prologue">
+      <div class="prologue-lead">“每一代人有每一代人的长征路。”<br>我们这一代的长征路，写在<em>网页源码</em>里，也写在<em>一枚枚 NFC 贴片</em>里。</div>
+      <div class="prologue-copy">
+        <p>九十年前，一支平均年龄不到二十岁的队伍，从赣南的稻田出发，翻过雪山、走过草地，在会宁的黄土塬上把三面红旗举到了一起。今天，我们把那段路程拆成九个节点，一个一个地做成可以点击、可以触摸、可以体验的展项。</p>
+        <p>开发的过程就是学习的过程：为一句史实翻三份档案，为一个坐标校四次投影，为一条曲线改七版参数。调试卡住的那个深夜，恰好是最接近“万水千山只等闲”的时刻。</p>
+        <p class="note">展馆定位：面向全院师生开放的“行走的思政课堂”。所有史实数据均标注来源，示意图注明“非精确比例”，装置说明标注演示参数。</p>
+      </div>
+    </div>
+    <div class="figures">
+      <div><div class="num">25000<span>里</span></div><div class="lb">中央红军长征行程<br>（1934.10—1935.10）</div></div>
+      <div><div class="num">8.6<span>万</span></div><div class="lb">中央红军出发时兵力<br>抵达陕北时约7000人</div></div>
+      <div><div class="num">14<span>省</span></div><div class="lb">四支红军队伍长征<br>转战省份合计</div></div>
+    </div>
+    <div class="tl">
+      <div class="tl-h">长征大事记 / CHRONOLOGY</div>
+      <div class="tl-track">
+        <div class="tl-item"><span class="t">1934.10</span><span class="tl-dot"></span><span class="e"><b>瑞金出发</b>中央红军8.6万余人战略转移<i>于都河</i></span></div>
+        <div class="tl-item"><span class="t">1934.11</span><span class="tl-dot"></span><span class="e"><b>湘江血战</b>突破第四道封锁线<i>锐减至3万余</i></span></div>
+        <div class="tl-item"><span class="t">1935.01</span><span class="tl-dot"></span><span class="e"><b>遵义会议</b>生死攸关的转折点<i>子尹路96号</i></span></div>
+        <div class="tl-item"><span class="t">1935.01—03</span><span class="tl-dot"></span><span class="e"><b>四渡赤水</b>运动战跳出合围<i>赤水河</i></span></div>
+        <div class="tl-item"><span class="t">1935.05</span><span class="tl-dot"></span><span class="e"><b>巧渡金沙江</b>七只木船渡江<i>皎平渡</i></span></div>
+        <div class="tl-item"><span class="t">1935.05.29</span><span class="tl-dot"></span><span class="e"><b>飞夺泸定桥</b>二十二名突击队员<i>大渡河</i></span></div>
+        <div class="tl-item"><span class="t">1935.06</span><span class="tl-dot"></span><span class="e"><b>翻越夹金山</b>第一座大雪山<i>海拔4000余米</i></span></div>
+        <div class="tl-item"><span class="t">1935.08</span><span class="tl-dot"></span><span class="e"><b>穿越草地</b>松潘草地茫茫沼泽<i>约七天</i></span></div>
+        <div class="tl-item"><span class="t">1936.10</span><span class="tl-dot"></span><span class="e"><b>会宁会师</b>三大主力会师，长征胜利结束<i>会宁·将台堡</i></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+/* ============ 英雄谱 · 剪纸剪影揭开 ============ */
+.heroes-room{position:relative; overflow:hidden; color:var(--onink);
+  background:
+    radial-gradient(120% 86% at 14% -4%, rgba(194,64,44,.22), transparent 58%),
+    radial-gradient(90% 70% at 92% 108%, rgba(190,140,70,.14), transparent 62%),
+    linear-gradient(180deg,#17120F 0%, var(--ink) 58%, #100E0C 100%)}
+.heroes-room .veil{position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background-image:repeating-linear-gradient(90deg, rgba(237,229,216,.055) 0 1px, transparent 1px 92px)}
+.hx-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 16px; margin:22px 0 0; padding-bottom:11px;
+  border-bottom:1px solid rgba(237,229,216,.16)}
+.hx-head p{font-size:12.5px; color:var(--onink-dim); line-height:1.75; max-width:46em}
+.hx-head p b{color:var(--gold-2); font-weight:400}
+
+.hx{display:grid; grid-template-columns:1fr; gap:26px; margin-top:26px; align-items:start}
+
+/* —— 名录（不设复原肖像，只留姓名与档案） —— */
+.hx{display:grid; grid-template-columns:1fr; gap:24px}
+.hx-roll{display:flex; flex-direction:column; align-self:start}
+.hx-item{display:grid; grid-template-columns:44px 1fr auto; align-items:baseline; gap:12px;
+  width:100%; padding:14px 2px 12px; background:none; border:0;
+  border-bottom:1px solid rgba(237,229,216,.14); text-align:left; cursor:pointer;
+  transition:border-color .3s ease}
+.hx-item .no{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:rgba(237,229,216,.42)}
+.hx-item .nm{font-family:var(--display); font-size:clamp(22px,4.6vw,28px); line-height:1.2;
+  color:rgba(237,229,216,.74); letter-spacing:.08em; transition:color .3s ease}
+.hx-item .yr{font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:rgba(237,229,216,.38); text-align:right}
+.hx-item:hover .nm{color:#F2EADA}
+.hx-item.on{border-bottom-color:rgba(194,64,44,.9)}
+.hx-item.on .nm{color:#FBF5E9}
+.hx-item.on .no{color:var(--gold-2)}
+.hx-item.on .yr{color:rgba(237,229,216,.72)}
+.hx-item:focus-visible{outline:1px solid var(--gold); outline-offset:2px}
+.hx-hint{margin-top:14px; display:flex; align-items:center; gap:8px; font-family:var(--mono);
+  font-size:10.5px; letter-spacing:.14em; color:rgba(237,229,216,.5)}
+.hx-hint i{width:4px; height:4px; border-radius:50%; background:var(--red-2); animation:beat 1.9s ease-in-out infinite}
+
+/* —— 人物档案 —— */
+.hx-info{position:relative; padding-top:2px}
+.hx-info .rule-top{height:2px; width:54px; background:var(--red-2); margin-bottom:16px}
+.hx-info .role{display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-family:var(--mono);
+  font-size:10.5px; letter-spacing:.14em; color:var(--gold-2)}
+.hx-info .role span{color:var(--onink-dim)}
+.hx-name{margin-top:12px; font-family:var(--display); font-size:clamp(30px,6vw,46px); line-height:1.1;
+  color:#F6EFE3; letter-spacing:.06em}
+.hx-name small{display:block; margin-top:8px; font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+  color:var(--onink-dim)}
+.hx-deeds{margin-top:16px; font-size:14px; line-height:1.95; color:#DED5C6}
+.hx-deeds p+p{margin-top:10px}
+.hx-deeds b{color:#fff; font-weight:500}
+.hx-quote{margin-top:16px; padding:2px 0 2px 14px; border-left:2px solid rgba(190,140,70,.55);
+  font-family:var(--kai); font-size:15.5px; line-height:1.85; color:#EFE6D6}
+.hx-tags{display:flex; flex-wrap:wrap; gap:7px; margin-top:16px}
+.hx-tags span{font-size:11px; color:var(--onink-dim); border:1px solid rgba(237,229,216,.2);
+  padding:3px 8px; letter-spacing:.04em}
+.hx-meta{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin-top:18px;
+  padding-top:15px; border-top:1px solid rgba(237,229,216,.14)}
+.hx-meta dt{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--onink-dim); align-self:center}
+.hx-meta dd{margin:0; font-size:12.5px; line-height:1.7; color:#E7DECD}
+.hx-src{margin-top:14px; font-size:11px; color:rgba(237,229,216,.5); line-height:1.7}
+.hx-body{transition:opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1)}
+@media (min-width:820px){
+  .hx{grid-template-columns:.86fr 1.14fr; gap:52px}
+  .hx-roll{position:sticky; top:96px}
+}
+@media (max-width:819px){
+  .hx{gap:22px}
+  .hx-name{font-size:clamp(28px,8vw,38px)}
+  .hx-deeds{font-size:13.5px; line-height:1.85}
+}
+@media (max-width:420px){
+  .hx-item{grid-template-columns:32px 1fr auto; gap:10px; padding:12px 2px 10px}
+  .hx-item .nm{font-size:21px}
+  .hx-item .no{font-size:10px}
+  .hx-item .yr{font-size:9.5px}
+  .hx-meta{gap:7px 12px}
+  .hx-meta dt{font-size:10px; letter-spacing:.1em}
+  .hx-meta dd{font-size:12px}
+}
+@media (max-width:640px){
+  .topbar{flex-wrap:wrap; row-gap:6px; padding:8px 14px}
+  .topnav{width:100%; padding-top:2px}
+  .topnav a{font-size:11.5px; padding:6px 7px}
+  .topnav a::after{left:7px; right:7px}
+  .hero{padding-top:118px}
+  .hero-side{flex-direction:column; align-items:flex-start; gap:14px}
+}
+</style>
+
+<!-- ============ 英雄谱 ============ -->
+<section class="room dark heroes-room" id="hall-hero">
+  <div class="veil" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="chap">
+      <span class="no on-dark">英</span>
+      <div>
+        <h2>英雄谱</h2>
+        <p class="sub">六个人，六种把长征走完的方式：有人挡在最后，有人倒在最前；有人把肠子绞断在担架上，有人在狱中写完一本书。这里不设复原肖像——只留下姓名、生卒，和一段能被核对的事略。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="hx-head">
+      <p>共 <b>六位</b>。点名字，右侧翻开他的档案；左右方向键也可以切换。</p>
+      <p>六位均无可靠的公开历史照片，此处<b>不作肖像复原</b>，以免以想象替代史实；史实依据见每则档案末尾。</p>
+    </div>
+
+    <div class="hx">
+      <div>
+        <div class="hx-roll" id="hxRoll" role="tablist" aria-label="六位人物名录"></div>
+        <div class="hx-hint"><i></i><span>点名字 · 翻开档案</span></div>
+      </div>
+
+      <div class="hx-info" id="hxInfo">
+        <div class="hx-body" id="hxBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ============ 第一展厅 · 数字行军图 ============ */
+.map-room{background:var(--ink); color:var(--onink); position:relative}
+.map-layout{display:grid; grid-template-columns:1fr; gap:22px; align-items:start}
+.map-stage{border:1px solid rgba(237,229,216,.16); background:
+   linear-gradient(180deg,rgba(131,151,164,.08),transparent 60%); position:relative; padding:8px 6px 4px}
+.map-stage::before,.map-stage::after{content:""; position:absolute; width:9px; height:9px; border:1px solid rgba(190,140,70,.5); pointer-events:none}
+.map-stage::before{left:7px; top:7px; border-right:0; border-bottom:0}
+.map-stage::after{right:7px; bottom:7px; border-left:0; border-top:0}
+.map-stage .cap{position:absolute; left:14px; top:12px; font-family:var(--mono); font-size:10px; letter-spacing:.16em;
+  color:var(--onink-dim); pointer-events:none}
+.map-stage .cap b{color:var(--gold); font-weight:400}
+.map-svg{display:block; width:100%; height:auto; touch-action:manipulation}
+.map-svg .grid{fill:none; stroke:rgba(237,229,216,.09); stroke-width:1}
+.map-svg .axis{fill:var(--onink-dim); font-family:var(--mono); font-size:11px; opacity:.6}
+.map-svg .river{fill:none; stroke:rgba(131,151,164,.42); stroke-width:1.2}
+.map-svg .route{fill:none; stroke:rgba(237,229,216,.5); stroke-width:1.6; stroke-dasharray:5 6}
+.map-svg .route-lit{fill:none; stroke:var(--red-2); stroke-width:2.2; stroke-linejoin:round;
+  stroke-dasharray:100; stroke-dashoffset:100; transition:stroke-dashoffset 2.2s cubic-bezier(.3,.1,.2,1) .1s}
+.map-room.drawn .route-lit{stroke-dashoffset:0}
+.node{cursor:pointer; outline:none}
+.node .ring{fill:none; stroke:rgba(237,229,216,.5); stroke-width:1.2; transition:stroke .25s, stroke-width .25s, transform .25s, opacity .25s;
+  transform-box:fill-box; transform-origin:center}
+.node .core{fill:var(--onink); transition:fill .25s, transform .25s; transform-box:fill-box; transform-origin:center}
+.node .hit{fill:transparent}
+.node text{font-family:var(--sans); font-size:12.5px; fill:#CFC4B3; transition:fill .2s; pointer-events:all; cursor:pointer}
+.node .d{font-family:var(--mono); font-size:9.5px; fill:#8D8272; pointer-events:all}
+.node:hover .core,.node:focus-visible .core{fill:var(--gold); transform:scale(1.25)}
+.node:hover .ring,.node:focus-visible .ring{stroke:var(--gold); stroke-width:1.8}
+.node:hover text{fill:#fff}
+.node[aria-current="true"] .core{fill:var(--red-2)}
+.node[aria-current="true"] .ring{stroke:var(--red-2); stroke-width:2; r:15; animation:halo 2.6s ease-out infinite}
+.node[aria-current="true"] text{fill:#fff; font-weight:500}
+.node[aria-current="true"] .d{fill:var(--gold)}
+@keyframes halo{0%{transform:scale(1); opacity:.85} 75%,100%{transform:scale(1.9); opacity:0}}
+.map-legend{display:flex; flex-wrap:wrap; gap:14px; align-items:center; padding:10px 10px 12px; font-size:11px; color:var(--onink-dim);
+  font-family:var(--mono); letter-spacing:.06em}
+.map-legend i{display:inline-block; width:8px; height:8px; margin-right:5px; vertical-align:1px; border-radius:50%}
+.lg1 i{background:var(--red-2)} .lg2 i{background:var(--gold)} .lg3 i{background:var(--steel)}
+.map-legend .src{margin-left:auto; opacity:.75}
+.tour{margin-left:6px; background:none; border:1px solid rgba(237,229,216,.22); color:var(--onink-dim); font-family:var(--mono);
+  font-size:10px; letter-spacing:.1em; padding:6px 9px; min-height:32px; display:inline-flex; align-items:center; gap:6px;
+  transition:.2s}
+.tour:hover,.tour[aria-pressed="true"]{border-color:var(--gold); color:var(--gold)}
+.tour svg{width:9px; height:9px}
+
+/* 展柜 */
+.case{border:1px solid rgba(237,229,216,.16); background:#17150F; display:flex; flex-direction:column; min-height:100%}
+.case-fig{position:relative; overflow:hidden; background:#0d0c0a; aspect-ratio:16/9}
+.case-fig img.case-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  filter:saturate(.9) contrast(1.02); opacity:0; transform:scale(1.04);
+  transition:opacity .5s ease, transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.case-fig img.case-img.on{opacity:1; transform:scale(1)}
+.case-fig .tag{position:absolute; left:0; top:0; background:var(--red); color:#fff; font-family:var(--mono);
+  font-size:10px; letter-spacing:.14em; padding:4px 9px}
+.case-fig .credit{position:absolute; right:8px; bottom:6px; color:rgba(255,255,255,.7); font-size:9.5px; font-family:var(--mono);
+  text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.case-body{padding:17px 16px 16px; display:flex; flex-direction:column; gap:12px; flex:1}
+.case-body.swap{animation:swapIn .45s ease both}
+@keyframes swapIn{from{opacity:.35; transform:translateY(4px)} to{opacity:1; transform:none}}
+.case-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; border-bottom:1px solid rgba(237,229,216,.14); padding-bottom:10px}
+.case-head h3{font-size:21px; color:#F4EDE0; letter-spacing:.015em}
+.case-head .date{font-family:var(--mono); font-size:11px; color:var(--gold); white-space:nowrap}
+.case-meta{display:flex; flex-wrap:wrap; gap:6px; font-size:11px; color:var(--onink-dim)}
+.case-meta span{border:1px solid rgba(237,229,216,.18); padding:2px 7px; font-family:var(--mono); letter-spacing:.04em}
+.case-text{font-size:13.5px; line-height:1.92; color:#D9CFBF}
+.case-text p+p{margin-top:9px}
+.case-cols{display:grid; grid-template-columns:1fr; gap:10px; margin-top:auto}
+.case-box{border-left:2px solid var(--red-2); padding:9px 0 9px 12px; background:rgba(237,229,216,.035)}
+.case-box .h{font-size:10px; letter-spacing:.16em; color:var(--onink-dim); font-family:var(--mono); margin-bottom:5px}
+.case-box .v{font-size:12.8px; line-height:1.7; color:#E4DACB}
+.case-box .v b{color:var(--gold); font-weight:500; font-family:var(--serif); font-size:14px}
+.case-box.iot{border-left-color:var(--steel)}
+.case-box.iot .h{color:var(--steel)}
+.case-nav{display:flex; gap:8px; border-top:1px solid rgba(237,229,216,.14); padding:12px 16px; background:rgba(237,229,216,.03)}
+.case-nav button{flex:1; background:none; border:1px solid rgba(237,229,216,.24); color:var(--onink);
+  font-size:12px; padding:9px 6px; min-height:44px; letter-spacing:.06em; transition:.2s}
+.case-nav button:hover{border-color:var(--red-2); color:#fff; background:rgba(194,64,44,.16)}
+.case-nav button:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.case-nav button span{font-family:var(--mono); font-size:10px; color:var(--onink-dim); display:block; margin-top:2px}
+
+/* ============ 第二展厅 · 智联装置 ============ */
+.dev-room{background:var(--paper-2)}
+.chain{display:grid; grid-template-columns:1fr; gap:0; border:1px solid var(--paper-line); margin-bottom:30px; background:#fff}
+.chain .st{padding:14px 16px; border-bottom:1px solid var(--paper-line); position:relative}
+.chain .st:last-child{border-bottom:0}
+.chain .st .n{font-family:var(--mono); font-size:10px; color:var(--red); letter-spacing:.14em}
+.chain .st .t{font-family:var(--serif); font-size:16px; margin-top:2px}
+.chain .st .d{font-size:12px; color:var(--tx-dim); line-height:1.6; margin-top:4px}
+.chain .st .dot{position:absolute; right:14px; top:16px; width:6px; height:6px; border-radius:50%; background:var(--red);
+  animation:pulse 2.6s infinite}
+.chain .st:nth-child(2) .dot{animation-delay:.65s}
+.chain .st:nth-child(3) .dot{animation-delay:1.3s}
+.chain .st:nth-child(4) .dot{animation-delay:1.95s}
+@keyframes pulse{0%,100%{opacity:.35; transform:scale(.85)} 50%{opacity:1; transform:scale(1.25)}}
+.dev-grid{display:grid; grid-template-columns:1fr; gap:1px; background:var(--paper-line); border:1px solid var(--paper-line)}
+.dev{background:var(--paper-2); padding:22px 18px; display:flex; flex-direction:column; gap:12px}
+.dev-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px}
+.dev-top .id{font-family:var(--mono); font-size:10.5px; color:var(--red); letter-spacing:.14em; padding-top:4px}
+.dev h3{font-size:18.5px; letter-spacing:.02em}
+.dev .claim{font-size:13.5px; color:#3E362C; line-height:1.85}
+.dev .schem{background:#FBF7EE; border:1px solid var(--paper-line); padding:12px}
+.dev .schem svg{display:block; width:100%; height:auto}
+.dev .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:auto}
+.dev .tags span{font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; color:#5B5145;
+  border:1px solid var(--paper-line); background:#FBF7EE; padding:3px 7px}
+.dev .spec{border-top:1px dashed var(--paper-line); padding-top:9px; font-size:11.5px; color:var(--tx-dim); line-height:1.7}
+.dev .spec b{color:var(--tx); font-weight:500}
+
+/* 装置演示控件 */
+.sim{border:1px solid var(--paper-line); background:#FBF7EE; padding:11px 12px 12px; display:flex; flex-direction:column; gap:9px}
+.sim-h{display:flex; justify-content:space-between; align-items:baseline; font-family:var(--mono); font-size:10px;
+  letter-spacing:.12em; color:#6E6355}
+.sim-h b{font-family:var(--mono); font-size:13px; color:var(--red); letter-spacing:.02em}
+.sim input[type=range]{-webkit-appearance:none; appearance:none; width:100%; height:20px; background:transparent; margin:0; cursor:pointer}
+.sim input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--paper-line)}
+.sim input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:15px; height:15px; margin-top:-6.5px;
+  border-radius:50%; background:var(--red); border:0; transition:background .25s}
+.sim input[type=range]::-moz-range-track{height:2px; background:var(--paper-line)}
+.sim input[type=range]::-moz-range-thumb{width:15px; height:15px; border-radius:50%; background:var(--red); border:0}
+.sim input[type=range]:focus-visible{outline:1px solid var(--gold); outline-offset:4px}
+.sim-bar{height:5px; background:#E7DECB; overflow:hidden}
+.sim-bar span{display:block; height:100%; width:100%; background:var(--steel); transition:width .3s ease, background .3s ease}
+.sim-strip{display:grid; grid-template-columns:repeat(10,1fr); gap:3px}
+.sim-strip i{display:block; height:8px; background:#DED4C0; transition:background .3s ease}
+.sim-out{font-size:12px; color:#5B5145; line-height:1.65; min-height:2.6em}
+@media (min-width:720px){
+  .case-cols{grid-template-columns:1fr 1fr}
+  .chain{grid-template-columns:repeat(2,1fr)}
+  .chain .st:nth-child(even){border-right:0}
+  .dev-grid{grid-template-columns:1fr 1fr}
+  .dev-grid .dev:last-child{grid-column:1 / -1}
+  .dev-grid .dev:last-child{display:grid; grid-template-columns:1fr 1fr; gap:14px 26px; align-content:start}
+  .dev-grid .dev:last-child .dev-top{grid-column:1}
+  .dev-grid .dev:last-child h3{grid-column:1}
+  .dev-grid .dev:last-child .claim{grid-column:1}
+  .dev-grid .dev:last-child .schem{grid-column:2; grid-row:1 / span 3; align-self:center}
+  .dev-grid .dev:last-child .tags{grid-column:1}
+  .dev-grid .dev:last-child .spec{grid-column:1 / -1}
+}
+@media (min-width:1000px){
+  .dev-grid{grid-template-columns:repeat(3,1fr)}
+  .dev-grid .dev:last-child{grid-column:auto; display:flex}
+  .dev-grid .dev:last-child .schem{grid-row:auto}
+}
+@media (min-width:1040px){
+  .map-layout{grid-template-columns:1.28fr .72fr; gap:26px}
+  .chain{grid-template-columns:repeat(4,1fr)}
+  .chain .st{border-bottom:0; border-right:1px solid var(--paper-line)}
+  .chain .st:last-child{border-right:0}
+}
+</style>
+
+<!-- ============ 第一展厅 · 数字行军图 ============ -->
+<section class="room dark map-room" id="hall-1">
+  <div class="wrap">
+    <div class="chap">
+      <span class="no on-dark">壹</span>
+      <div>
+        <h2>数字行军图</h2>
+        <p class="sub">九个节点，一条折线。坐标取自真实经纬度，按等距圆柱投影重绘——它不是精确的军用地图，而是一张由我们逐点校对的“可点击的行军路线”。点击节点，展柜即开。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="map-layout">
+      <div>
+        <div class="map-stage">
+          <div class="cap">FIG.01 / <b>ROUTE MAP</b> · 经度 101°—117°E · 纬度 24°—36°N</div>
+          <svg class="map-svg" viewBox="0 0 980 700" role="group" aria-label="中央红军长征路线示意图，含九个关键节点">
+            <!-- 网格（按真实经纬度换算：x=60+(经度-101)/16.2*860，y=60+(36.5-纬度)/12*580） -->
+            <g>
+              <line class="grid" x1="60" y1="60" x2="920" y2="60"/>
+              <line class="grid" x1="60" y1="181" x2="920" y2="181"/>
+              <line class="grid" x1="60" y1="278" x2="920" y2="278"/>
+              <line class="grid" x1="60" y1="374" x2="920" y2="374"/>
+              <line class="grid" x1="60" y1="471" x2="920" y2="471"/>
+              <line class="grid" x1="60" y1="568" x2="920" y2="568"/>
+              <line class="grid" x1="60" y1="640" x2="920" y2="640"/>
+              <line class="grid" x1="60" y1="60" x2="60" y2="640"/>
+              <line class="grid" x1="219" y1="60" x2="219" y2="640"/>
+              <line class="grid" x1="432" y1="60" x2="432" y2="640"/>
+              <line class="grid" x1="644" y1="60" x2="644" y2="640"/>
+              <line class="grid" x1="856" y1="60" x2="856" y2="640"/>
+              <line class="grid" x1="920" y1="60" x2="920" y2="640"/>
+              <text class="axis" x="60" y="52">36.5°N</text><text class="axis" x="52" y="185" text-anchor="end">34°N</text>
+              <text class="axis" x="52" y="282" text-anchor="end">32°</text><text class="axis" x="52" y="378" text-anchor="end">30°</text>
+              <text class="axis" x="52" y="475" text-anchor="end">28°</text><text class="axis" x="52" y="572" text-anchor="end">26°</text>
+              <text class="axis" x="219" y="660" text-anchor="middle">104°E</text><text class="axis" x="432" y="660" text-anchor="middle">108°E</text>
+              <text class="axis" x="644" y="660" text-anchor="middle">112°E</text><text class="axis" x="856" y="660" text-anchor="middle">116°E</text>
+            </g>
+            <!-- 江河示意：金沙江 / 长江 -->
+            <path class="river" d="M118 120 C 104 240, 100 420, 118 545 C 170 548, 260 540, 340 528 C 380 522, 410 520, 440 518"/>
+            <path class="river" d="M440 518 C 560 505, 700 528, 920 512"/>
+            <text class="axis" x="700" y="546" opacity=".45">长江</text>
+            <text class="axis" x="86" y="250" opacity=".45" text-anchor="end">金沙江</text>
+            <!-- 路线：总览虚线 -->
+            <path class="route" d="M856 572 L586 587 L373 485 L336 461 L124 548 C 124 500, 124 440, 124 379 L150 331 L166 229 L283 99"/>
+            <!-- 路线：已行走实线 -->
+            <path class="route-lit" pathLength="100" d="M856 572 L586 587 L373 485 L336 461"/>
+            <!-- 节点 -->
+            <g class="node" data-i="0" tabindex="0" aria-current="true" role="button" aria-label="瑞金出发">
+              <circle class="hit" cx="856" cy="572" r="30"/><circle class="ring" cx="856" cy="572" r="10"/><circle class="core" cx="856" cy="572" r="5"/>
+              <text x="840" y="596" text-anchor="end">瑞金出发</text><text class="d" x="840" y="612" text-anchor="end">1934.10</text>
+            </g>
+            <g class="node" data-i="1" tabindex="0" role="button" aria-label="湘江血战">
+              <circle class="hit" cx="586" cy="587" r="30"/><circle class="ring" cx="586" cy="587" r="10"/><circle class="core" cx="586" cy="587" r="5"/>
+              <text x="586" y="630" text-anchor="middle">湘江血战</text><text class="d" x="586" y="646" text-anchor="middle">1934.11</text>
+            </g>
+            <g class="node" data-i="2" tabindex="0" role="button" aria-label="遵义会议">
+              <circle class="hit" cx="373" cy="485" r="30"/><circle class="ring" cx="373" cy="485" r="10"/><circle class="core" cx="373" cy="485" r="5"/>
+              <text x="373" y="512" text-anchor="middle">遵义会议</text><text class="d" x="373" y="528" text-anchor="middle">1935.01.15—17</text>
+            </g>
+            <g class="node" data-i="3" tabindex="0" role="button" aria-label="四渡赤水">
+              <circle class="hit" cx="336" cy="461" r="30"/><circle class="ring" cx="336" cy="461" r="10"/><circle class="core" cx="336" cy="461" r="5"/>
+              <text x="316" y="452" text-anchor="end">四渡赤水</text><text class="d" x="316" y="468" text-anchor="end">1935.01—03</text>
+            </g>
+            <g class="node" data-i="4" tabindex="0" role="button" aria-label="巧渡金沙江">
+              <circle class="hit" cx="124" cy="548" r="30"/><circle class="ring" cx="124" cy="548" r="10"/><circle class="core" cx="124" cy="548" r="5"/>
+              <text x="142" y="556" text-anchor="start">巧渡金沙江</text><text class="d" x="142" y="572" text-anchor="start">1935.05</text>
+            </g>
+            <g class="node" data-i="5" tabindex="0" role="button" aria-label="飞夺泸定桥">
+              <circle class="hit" cx="124" cy="379" r="30"/><circle class="ring" cx="124" cy="379" r="10"/><circle class="core" cx="124" cy="379" r="5"/>
+              <text x="142" y="386" text-anchor="start">飞夺泸定桥</text><text class="d" x="142" y="402" text-anchor="start">1935.05.29</text>
+            </g>
+            <g class="node" data-i="6" tabindex="0" role="button" aria-label="翻越夹金山">
+              <circle class="hit" cx="150" cy="331" r="30"/><circle class="ring" cx="150" cy="331" r="10"/><circle class="core" cx="150" cy="331" r="5"/>
+              <text x="168" y="330" text-anchor="start">翻越夹金山</text><text class="d" x="168" y="346" text-anchor="start">1935.06</text>
+            </g>
+            <g class="node" data-i="7" tabindex="0" role="button" aria-label="穿越草地">
+              <circle class="hit" cx="166" cy="229" r="30"/><circle class="ring" cx="166" cy="229" r="10"/><circle class="core" cx="166" cy="229" r="5"/>
+              <text x="184" y="228" text-anchor="start">穿越草地</text><text class="d" x="184" y="244" text-anchor="start">1935.08</text>
+            </g>
+            <g class="node" data-i="8" tabindex="0" role="button" aria-label="会宁会师">
+              <circle class="hit" cx="283" cy="99" r="30"/><circle class="ring" cx="283" cy="99" r="14"/><circle class="core" cx="283" cy="99" r="6"/>
+              <text x="301" y="96" text-anchor="start">会宁会师</text><text class="d" x="301" y="112" text-anchor="start">1936.10</text>
+            </g>
+          </svg>
+          <div class="map-legend">
+            <span class="lg1"><i></i>行军节点</span>
+            <span class="lg2"><i></i>战役机动</span>
+            <span class="lg3"><i></i>江河</span>
+            <button class="tour" type="button" id="tourBtn" aria-pressed="false">
+              <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1 L11 6 L1 11 Z" fill="currentColor"/></svg>
+              <span>自动巡展</span>
+            </button>
+            <span class="src">示意图 · 非精确比例</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="case" aria-live="polite">
+        <div class="case-fig">
+          <img class="case-img on" src="assets/ruijin_aerial.jpg" alt="江西瑞金叶坪革命旧址群航拍">
+          <img class="case-img" src="assets/xiangjiang.jpg" loading="lazy" alt="广西全州红军长征湘江战役纪念馆">
+          <img class="case-img" src="assets/zunyi.jpg" loading="lazy" alt="遵义会议会址">
+          <img class="case-img" src="assets/chishui.jpg" loading="lazy" alt="习水县土城镇四渡赤水纪念馆">
+          <img class="case-img" src="assets/jinsha.jpg" loading="lazy" alt="金沙江皎平渡">
+          <img class="case-img" src="assets/luding.jpg" loading="lazy" alt="大渡河泸定桥">
+          <img class="case-img" src="assets/jiajin_snow.jpg" loading="lazy" alt="夹金山雪山">
+          <img class="case-img" src="assets/caodi.jpg" loading="lazy" alt="松潘草地若尔盖沼泽湿地">
+          <img class="case-img" src="assets/huining.jpg" loading="lazy" alt="甘肃会宁红军会师纪念塔">
+          <span class="tag" id="caseTag">NODE 01 / 09</span>
+          <span class="credit" id="caseCredit">新华社</span>
+        </div>
+        <div class="case-body">
+          <div class="case-head">
+            <h3 id="caseTitle">瑞金出发</h3>
+            <span class="date" id="caseDate">1934.10</span>
+          </div>
+          <div class="case-meta" id="caseMeta">
+            <span>江西·瑞金</span><span>于都河</span><span>8.6万余人</span>
+          </div>
+          <div class="case-text" id="caseText">
+            <p>1934年10月，中央红军主力五个军团及中央、军委机关和直属部队共8.6万余人，从江西于都出发，踏上战略转移的征途。出发前，于都百姓把门板、床板甚至寿材都送到河边，架起五座浮桥，红军昼伏夜渡，四天四夜渡过于都河。</p>
+            <p>瑞金叶坪是中华苏维埃共和国临时中央政府所在地，1931年11月7日，第一次全国苏维埃代表大会在这座谢氏宗祠里召开。</p>
+          </div>
+          <div class="case-cols">
+            <div class="case-box"><div class="h">KEY FIGURES / 关键数字</div><div class="v" id="caseKey"><b>8.6万</b> 余人出发；<b>5</b> 座浮桥；四天四夜渡河</div></div>
+            <div class="case-box iot"><div class="h">智联·对应 / OUR CODE</div><div class="v" id="caseIot">出征前的物资与人员清点，对应展馆的<b>数据建模</b>：先把“谁、带什么、去哪儿”编码成结构化字段，才有后面的一切。</div></div>
+          </div>
+          <div class="case-nav">
+            <button type="button" id="prevNode"><span>上一站</span>起点</button>
+            <button type="button" id="nextNode"><span>下一站</span>湘江血战</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第二展厅 · 智联装置 ============ -->
+<section class="room dev-room" id="hall-2">
+  <div class="wrap">
+    <div class="chap">
+      <span class="no">贰</span>
+      <div>
+        <h2>把雪山与草地搬进实验室</h2>
+        <p class="sub">现场组用现成设备复原两段最难走的路：一段是零下低温与缺氧，一段是看不见底的沼泽。一台数显温湿度计、一盏智能灯泡、一圈智能灯带，就够把“冷”和“险”做成看得见的现场。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="chain" aria-label="展馆技术链路">
+      <div class="st"><span class="dot"></span><div class="n">LAYER 01</div><div class="t">感知层</div><div class="d">二维码、NFC 贴片、数显温湿度计、手机定位</div></div>
+      <div class="st"><span class="dot"></span><div class="n">LAYER 02</div><div class="t">现场联动</div><div class="d">手机页面阈值判定、智能插座与灯泡场景切换</div></div>
+      <div class="st"><span class="dot"></span><div class="n">LAYER 03</div><div class="t">平台层</div><div class="d">页面状态聚合、打卡记录留存、赛后战报导出</div></div>
+      <div class="st"><span class="dot"></span><div class="n">LAYER 04</div><div class="t">体验层</div><div class="d">数字行军图、情景装置、数据长廊可视化</div></div>
+    </div>
+
+    <div class="dev-grid">
+      <article class="dev">
+        <div class="dev-top"><span class="id">DEVICE A</span></div>
+        <h3>雪山·寒温带</h3>
+        <p class="claim">夹金山口的冷，先做成体感。保温箱里放冰袋把温度压到 2—12℃，一台数显温湿度计把“冷”读成数字，智能灯泡随温度由暖白转冷白；手机碰一下箱边的 NFC 贴片，这一段讲解自动开口。</p>
+        <div class="schem">
+          <svg viewBox="0 0 320 96" role="img" aria-label="雪山展柜联动：数显温湿度计读数经手机页面驱动智能灯泡与加湿器">
+            <rect x="2" y="34" width="76" height="30" fill="none" stroke="#B9AE9C"/>
+            <text x="40" y="52" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">数显温湿度计</text>
+            <path d="M78 49 H104" stroke="#A92D20" stroke-width="1.4"/><circle cx="91" cy="49" r="2" fill="#A92D20"/>
+            <rect x="104" y="30" width="76" height="38" fill="none" stroke="#A92D20"/>
+            <text x="142" y="46" text-anchor="middle" font-size="9.5" font-family="sans-serif" fill="#A92D20">手机页面</text>
+            <text x="142" y="60" text-anchor="middle" font-size="8" font-family="sans-serif" fill="#6E6355">碰 NFC · 判阈值</text>
+            <path d="M180 49 H206" stroke="#A92D20" stroke-width="1.4"/><circle cx="193" cy="49" r="2" fill="#A92D20"/>
+            <rect x="206" y="26" width="50" height="20" fill="none" stroke="#B9AE9C"/>
+            <text x="231" y="40" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">智能灯泡</text>
+            <rect x="206" y="52" width="50" height="20" fill="none" stroke="#B9AE9C"/>
+            <text x="231" y="66" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">加湿器</text>
+            <path d="M256 49 H286" stroke="#8397A4" stroke-width="1.4" stroke-dasharray="3 3"/>
+            <text x="300" y="53" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#8397A4">页面</text>
+          </svg>
+        </div>
+        <div class="tags"><span>NFC 贴片</span><span>数显温湿度计</span><span>智能灯泡</span><span>智能插座</span></div>
+        <div class="sim">
+          <div class="sim-h"><span>DEMO / 联动演示</span><b id="aVal">12 ℃</b></div>
+          <input type="range" id="aRange" min="2" max="12" step="1" value="12" aria-label="调节模拟舱温，观察雾化片与灯带反应">
+          <div class="sim-bar"><span id="aBar"></span></div>
+          <p class="sim-out" id="aOut">舱温 12℃，雾化关闭，灯带冷白——队伍还在山脚。</p>
+        </div>
+        <div class="spec"><b>演示参数：</b>箱内 12℃ → 2℃ 阶梯降温，每级停留 90 秒；湿度 45%→80%。页面滑块为互动模拟，真实读数以现场数显表为准。</div>
+      </article>
+
+      <article class="dev">
+        <div class="dev-top"><span class="id">DEVICE B</span></div>
+        <h3>草地·沼泽</h3>
+        <p class="claim">松潘草地的凶险在于“看着像草地”。展区地面铺一米见方的“草皮”，边缘藏一圈智能灯带，配一台投影；值守同学在手机上切换场景，踩上去的一瞬，灯带由绿转红，投影里浮出一句当年的行军日记。</p>
+        <div class="schem">
+          <svg viewBox="0 0 320 96" role="img" aria-label="草地展区联动：值守手机切换场景，驱动智能灯带与投影">
+            <rect x="2" y="26" width="76" height="24" fill="none" stroke="#B9AE9C"/>
+            <text x="40" y="41" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">值守手机</text>
+            <rect x="2" y="54" width="76" height="24" fill="none" stroke="#B9AE9C"/>
+            <text x="40" y="69" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">草皮踏面</text>
+            <path d="M78 38 H104 M78 66 H104" stroke="#A92D20" stroke-width="1.4"/>
+            <rect x="104" y="30" width="76" height="38" fill="none" stroke="#A92D20"/>
+            <text x="142" y="46" text-anchor="middle" font-size="9.5" font-family="sans-serif" fill="#A92D20">场景脚本</text>
+            <text x="142" y="60" text-anchor="middle" font-size="8" font-family="sans-serif" fill="#6E6355">晴 / 雨 / 陷落</text>
+            <path d="M180 49 H206" stroke="#A92D20" stroke-width="1.4"/><circle cx="193" cy="49" r="2" fill="#A92D20"/>
+            <rect x="206" y="26" width="50" height="20" fill="none" stroke="#B9AE9C"/>
+            <text x="231" y="40" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">智能灯带</text>
+            <rect x="206" y="52" width="50" height="20" fill="none" stroke="#B9AE9C"/>
+            <text x="231" y="66" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">投影</text>
+            <path d="M256 49 H286" stroke="#8397A4" stroke-width="1.4" stroke-dasharray="3 3"/>
+            <text x="300" y="53" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#8397A4">页面</text>
+          </svg>
+        </div>
+        <div class="tags"><span>智能灯带</span><span>投影仪</span><span>二维码地贴</span><span>手机切场景</span></div>
+        <div class="sim">
+          <div class="sim-h"><span>DEMO / 联动演示</span><b id="bVal">0</b></div>
+          <input type="range" id="bRange" min="0" max="100" step="5" value="0" aria-label="调节模拟踩踏压力，观察灯带与投影反应">
+          <div class="sim-strip" id="bStrip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="sim-out" id="bOut">压力 0：地面看似干燥，灯带常绿，投影静默。</p>
+        </div>
+        <div class="spec"><b>场景逻辑：</b>值守手机切换“晴天 / 阴雨 / 陷落”三档，灯带与投影同步变化，页面显示当前场景与史料原文。</div>
+      </article>
+
+      <article class="dev">
+        <div class="dev-top"><span class="id">DEVICE C</span></div>
+        <h3>电子路条</h3>
+        <p class="claim">延伸到“重走长征路”校园智行挑战赛的打卡牌：一枚 NFC 贴片加一块二维码立牌。手机碰一碰或扫一扫就进打卡页，记录连队到站顺序与答题得分，赛后在“云端行军看板”自动汇总成战报。</p>
+        <div class="schem">
+          <svg viewBox="0 0 320 96" role="img" aria-label="电子路条链路：NFC 贴片与二维码进入手机打卡页，数据汇总到看板">
+            <rect x="2" y="26" width="76" height="24" fill="none" stroke="#B9AE9C"/>
+            <text x="40" y="41" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">NFC 贴片</text>
+            <rect x="2" y="54" width="76" height="24" fill="none" stroke="#B9AE9C"/>
+            <text x="40" y="69" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">二维码立牌</text>
+            <path d="M78 38 H104 M78 66 H104" stroke="#A92D20" stroke-width="1.4"/>
+            <rect x="104" y="30" width="76" height="38" fill="none" stroke="#A92D20"/>
+            <text x="142" y="46" text-anchor="middle" font-size="9.5" font-family="sans-serif" fill="#A92D20">手机打卡页</text>
+            <text x="142" y="60" text-anchor="middle" font-size="8" font-family="sans-serif" fill="#6E6355">到站 / 答题</text>
+            <path d="M180 49 H206" stroke="#A92D20" stroke-width="1.4"/><circle cx="193" cy="49" r="2" fill="#A92D20"/>
+            <rect x="206" y="26" width="50" height="20" fill="none" stroke="#B9AE9C"/>
+            <text x="231" y="40" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">看板</text>
+            <rect x="206" y="52" width="50" height="20" fill="none" stroke="#B9AE9C"/>
+            <text x="231" y="66" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#5B5145">战报</text>
+            <path d="M256 49 H286" stroke="#8397A4" stroke-width="1.4" stroke-dasharray="3 3"/>
+            <text x="300" y="53" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#8397A4">存档</text>
+          </svg>
+        </div>
+        <div class="tags"><span>NFC 贴片</span><span>二维码立牌</span><span>手机打卡</span><span>云端看板</span></div>
+        <div class="spec"><b>点位命名：</b>瑞金、遵义、泸定桥、夹金山、草地、会宁，六站串成校园微缩路线，赛后按里程与正确率评“行军先锋连队”。</div>
+      </article>
+    </div>
+  </div>
+</section>
+<style>
+/* ============ 第三展厅 · 数据长廊 ============ */
+.data-room{background:var(--ink); color:var(--onink); position:relative}
+.data-top{display:grid; grid-template-columns:1fr; gap:1px; background:rgba(237,229,216,.14); border:1px solid rgba(237,229,216,.14); margin-bottom:26px}
+.data-top div{background:var(--ink); padding:16px 14px; position:relative; transition:background .35s ease}
+.data-top div:hover{background:#1A1814}
+.data-top div:hover::after{content:""; position:absolute; left:14px; right:14px; bottom:0; height:1px; background:var(--gold); opacity:.6}
+.data-top .n{font-family:var(--display); font-size:clamp(24px,4.4vw,33px); color:#F4EDE0; line-height:1.1}
+.data-top .n small{font-size:12px; font-family:var(--sans); color:var(--gold); margin-left:5px; letter-spacing:.04em}
+.data-top .l{font-size:11.5px; color:var(--onink-dim); margin-top:6px; line-height:1.55}
+.charts{display:grid; grid-template-columns:1fr; gap:18px}
+.chart-card{border:1px solid rgba(237,229,216,.16); background:rgba(237,229,216,.03); padding:16px 12px 8px;
+  transition:border-color .35s ease, background .35s ease}
+.chart-card:hover{border-color:rgba(237,229,216,.28); background:rgba(237,229,216,.045)}
+.chart-card h3{font-size:16.5px; color:#F4EDE0; margin-bottom:2px}
+.chart-card .cs{font-size:11.5px; color:var(--onink-dim); margin-bottom:10px; font-family:var(--mono); letter-spacing:.04em}
+.chart-box{width:100%; height:260px}
+.chart-note{font-size:11.5px; color:var(--onink-dim); line-height:1.7; padding:10px 2px 8px; border-top:1px dashed rgba(237,229,216,.14); margin-top:6px}
+.chart-note b{color:var(--onink); font-weight:500}
+.chart-fallback{display:none; font-size:12.5px; color:var(--onink-dim); padding:10px 0}
+
+/* ============ 第四展厅 · 精神与青年 ============ */
+.spirit-room{background:var(--paper)}
+.sp-grid{display:grid; grid-template-columns:1fr; gap:1px; background:var(--paper-line); border:1px solid var(--paper-line)}
+.sp{background:var(--paper); padding:22px 18px; transition:background .35s ease}
+.sp:hover{background:#F4EEE1}
+.sp .q{font-family:var(--serif); font-size:16.5px; color:var(--red-deep); line-height:1.6}
+.sp .arrow{display:flex; align-items:center; gap:8px; margin:14px 0 10px; color:var(--tx-faint); font-size:10.5px; letter-spacing:.14em; font-family:var(--mono)}
+.sp .arrow::after{content:""; flex:1; height:1px; background:var(--paper-line)}
+.sp h3{font-size:17.5px; letter-spacing:.015em}
+.sp p{font-size:14px; color:#3B342B; line-height:1.88; margin-top:8px}
+.notes-h{margin:38px 0 14px; display:flex; justify-content:space-between; align-items:baseline; gap:10px; border-bottom:1px solid var(--paper-line); padding-bottom:10px}
+.notes-h h3{font-size:17px}
+.notes-h span{font-size:11px; color:var(--tx-faint); font-family:var(--mono); letter-spacing:.1em}
+.notes{display:grid; grid-template-columns:1fr; gap:14px}
+.note-card{border:1px solid var(--paper-line); background:#FBF7EE; padding:18px 16px; position:relative;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s ease}
+.note-card:hover{transform:translateY(-3px); border-color:#C9BB9F}
+.note-card::before{content:"“"; position:absolute; left:10px; top:2px; font-family:var(--serif); font-size:34px; color:rgba(169,45,32,.18); line-height:1}
+.note-card p{font-family:var(--serif); font-size:14.5px; line-height:1.95; color:#2E2820; padding-left:14px}
+.note-card .who{margin-top:12px; padding-left:14px; font-size:11.5px; color:var(--tx-dim); display:flex; justify-content:space-between; gap:8px; border-top:1px dashed var(--paper-line); padding-top:9px}
+.note-card .who b{font-weight:500; color:var(--red)}
+.flag-note{font-size:11.5px; color:var(--tx-faint); margin-top:14px; line-height:1.7}
+
+/* ============ 第五展厅 · 留言墙 ============ */
+.wall-room{background:var(--ink-2); color:var(--onink); position:relative}
+.wall-layout{display:grid; grid-template-columns:1fr; gap:26px}
+.wall-form{display:flex; flex-direction:column; gap:10px}
+.wall-form label{font-size:11px; letter-spacing:.14em; color:var(--onink-dim); font-family:var(--mono);
+  display:flex; justify-content:space-between; align-items:baseline; gap:10px}
+.wall-form label .wc{color:var(--gold); letter-spacing:.04em}
+.wall-form textarea{width:100%; min-height:104px; resize:vertical; background:rgba(237,229,216,.05); color:#F2EADD;
+  border:1px solid rgba(237,229,216,.24); padding:12px; font-family:var(--serif); font-size:15.5px; line-height:1.8;
+  transition:border-color .25s ease, background .25s ease}
+.wall-form textarea:focus{border-color:var(--gold); outline:none; background:rgba(237,229,216,.08)}
+.wall-form input{width:100%; background:rgba(237,229,216,.05); color:#F2EADD; border:1px solid rgba(237,229,216,.24);
+  padding:10px 12px; font-family:var(--sans); font-size:14px; transition:border-color .25s ease}
+.wall-form input:focus{border-color:var(--gold); outline:none}
+.wall-act{display:flex; gap:10px; align-items:center}
+.wall-act button{flex:1; background:var(--red); color:#fff; border:0; padding:12px; min-height:44px;
+  font-size:13.5px; letter-spacing:.08em; transition:background .25s ease, transform .15s ease}
+.wall-act button:hover{background:var(--red-2)}
+.wall-act button:active{transform:translateY(1px)}
+.wall-act .cnt{font-family:var(--mono); font-size:11px; color:var(--onink-dim); flex:none}
+.wall-hint{font-size:11.5px; color:var(--onink-dim); line-height:1.7}
+.wall-list{display:grid; grid-template-columns:1fr; gap:12px}
+.slip{background:#EFE7D8; color:#2A241C; padding:14px 14px 12px; position:relative; border-top:3px solid var(--red);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease}
+.slip:hover{transform:translateY(-3px) rotate(0deg); box-shadow:0 10px 24px rgba(0,0,0,.28)}
+.slip.new{animation:slipIn .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes slipIn{from{opacity:0; transform:translateY(-14px) rotate(-1.4deg)} to{opacity:1; transform:none}}
+.slip:nth-child(3n+1){transform:rotate(-1.1deg)}
+.slip:nth-child(3n+2){transform:rotate(.8deg); border-top-color:var(--gold)}
+.slip:nth-child(3n){transform:rotate(-.4deg); border-top-color:var(--steel)}
+.slip p{font-family:var(--kai); font-size:15px; line-height:1.95}
+.slip .foot{margin-top:9px; display:flex; justify-content:space-between; gap:8px; font-family:var(--mono); font-size:10;
+  color:#7A6E5F; letter-spacing:.06em}
+.slip .demo{color:var(--red)}
+@media (min-width:640px){ .data-top{grid-template-columns:repeat(3,1fr)} .wall-list{grid-template-columns:1fr 1fr} .notes{grid-template-columns:1fr 1fr} }
+@media (min-width:960px){
+  .data-top{grid-template-columns:repeat(6,1fr)}
+  .charts{grid-template-columns:1.1fr .9fr}
+  .chart-box{height:300px}
+  .sp-grid{grid-template-columns:repeat(3,1fr)}
+  .notes{grid-template-columns:1fr 1fr}
+  .wall-layout{grid-template-columns:.85fr 1.15fr; gap:34px}
+  .wall-list{grid-template-columns:1fr 1fr}
+}
+
+/* ============ 尾厅 ============ */
+.foot-room{background:var(--ink); color:var(--onink); border-top:1px solid rgba(237,229,216,.14)}
+.foot-grid{display:grid; grid-template-columns:1fr; gap:1px; background:rgba(237,229,216,.12); border:1px solid rgba(237,229,216,.12)}
+.foot-cell{background:var(--ink); padding:20px 16px}
+.foot-cell .h{font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--gold); margin-bottom:10px}
+.foot-cell .k{font-size:12.5px; color:var(--onink-dim); line-height:1.9}
+.foot-cell .k b{color:var(--onink); font-weight:500}
+.foot-cell ul{margin:0; padding-left:0; list-style:none}
+.foot-cell li{font-size:12.5px; color:var(--onink-dim); line-height:1.85; padding:3px 0;
+  border-bottom:1px dotted rgba(237,229,216,.1); display:flex; justify-content:space-between; gap:10px}
+.foot-cell li span{color:var(--onink)}
+.foot-cell li em{font-style:normal; flex:none; color:var(--gold); font-size:11.5px}
+.foot-bottom .signwrap{flex:0 0 auto}
+.foot-bottom{display:flex; flex-direction:column; gap:12px; padding:26px var(--pad) 40px; max-width:1240px; margin:0 auto;
+  border-top:1px solid rgba(237,229,216,.12); font-size:11.5px; color:var(--onink-dim)}
+.foot-bottom .sign{font-family:var(--serif); font-size:15px; color:var(--onink); letter-spacing:.06em}
+.src-list{display:flex; flex-wrap:wrap; gap:8px 16px; font-size:11px}
+.src-list a{color:var(--onink-dim); text-decoration:none; border-bottom:1px solid rgba(237,229,216,.25); padding-bottom:1px}
+.src-list a:hover{color:var(--gold)}
+.toTop{position:fixed; right:14px; bottom:16px; z-index:45; width:44px; height:44px; border:1px solid rgba(237,229,216,.3);
+  background:rgba(17,16,14,.85); color:var(--onink); display:none; place-items:center; backdrop-filter:blur(6px)}
+.toTop.on{display:grid}
+.toTop:hover{border-color:var(--gold); color:var(--gold)}
+@media (min-width:720px){ .foot-grid{grid-template-columns:repeat(2,1fr)} .foot-bottom{flex-direction:row; justify-content:space-between; align-items:flex-end} }
+@media (min-width:1040px){ .foot-grid{grid-template-columns:repeat(4,1fr)} }
+
+/* ============ 细节收口 ============ */
+:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
+.room .toTop,.toTop{transition:border-color .25s, color .25s, background .25s}
+.foot-cell{transition:background .35s ease}
+.foot-cell:hover{background:#161411}
+.src-list a{position:relative; transition:color .25s}
+.src-list a::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:var(--gold);
+  transform:scaleX(0); transform-origin:0 50%; transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.src-list a:hover::after{transform:scaleX(1)}
+.dev,.chain .st,.chart-card,.foot-cell,.tl-item{will-change:auto}
+@media (hover:none){ .slip:hover,.note-card:hover{transform:none; box-shadow:none} }
+@media (prefers-reduced-motion:reduce){
+  .node[aria-current="true"] .ring{animation:none}
+  .slip.new{animation:none}
+  .case-body.swap{animation:none}
+  .map-svg .route-lit{transition:none; stroke-dashoffset:0}
+}
+/* ============ 电子护照 · 九站集章 ============ */
+.passport-room{background:var(--paper)}
+.pp-top{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); padding:14px 0}
+.pp-count{display:flex; align-items:center; gap:9px; font-family:var(--mono); font-size:11.5px; color:var(--tx-dim)}
+.pp-count b{font-family:var(--display); font-size:34px; color:var(--red); line-height:1; letter-spacing:.02em}
+.pp-bar{position:relative; width:120px; height:2px; background:var(--paper-line); margin-left:4px; overflow:hidden}
+.pp-bar i{position:absolute; left:0; top:0; height:2px; width:0; background:var(--red); transition:width .55s cubic-bezier(.2,.7,.2,1)}
+.pp-act{display:flex; gap:9px; flex-wrap:wrap}
+.pp-act button{background:none; border:1px solid var(--paper-line); color:var(--tx); font-family:var(--serif);
+  font-size:13px; letter-spacing:.06em; padding:10px 15px; min-height:44px; transition:border-color .25s, color .25s}
+.pp-act button:hover{border-color:var(--red); color:var(--red)}
+.pp-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+.pp-stamp{position:relative; display:grid; gap:3px; text-align:left; padding:13px 12px; min-height:104px;
+  background:#F7F2E6; border:1px dashed var(--paper-line); color:var(--tx);
+  transition:border-color .3s, transform .3s, background .3s}
+.pp-stamp:hover{border-color:var(--gold); transform:translateY(-2px)}
+.pp-stamp .i{font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; color:var(--tx-faint)}
+.pp-stamp .n{font-family:var(--serif); font-size:15px; letter-spacing:.03em; padding-right:46px}
+.pp-stamp .d{font-family:var(--mono); font-size:10.5px; color:var(--tx-dim); letter-spacing:.08em}
+.pp-stamp .s{font-size:11.5px; color:var(--tx-faint); line-height:1.55; padding-right:44px}
+.pp-stamp[aria-pressed="true"]{background:#FBF6EA; border-color:transparent; box-shadow:inset 0 0 0 1px rgba(169,45,32,.28)}
+.pp-stamp[aria-pressed="true"] .n{color:var(--red)}
+.pp-stamp .sealmark{position:absolute; right:9px; top:50%; width:48px; height:48px; margin-top:-24px; border:1.5px solid var(--red);
+  border-radius:50%; display:grid; place-items:center; color:var(--red); font-family:var(--serif); font-size:14px;
+  letter-spacing:.12em; opacity:0; transform:rotate(-14deg) scale(.6);
+  transition:opacity .3s, transform .45s cubic-bezier(.2,1.4,.4,1)}
+.pp-stamp[aria-pressed="true"] .sealmark{opacity:.92; transform:rotate(-14deg) scale(1)}
+.pp-cert{margin-top:26px; display:none}
+.pp-cert.on{display:block; animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.pp-cert-in{border:1px solid var(--red); outline:1px solid var(--paper-line); outline-offset:5px; padding:26px 20px;
+  text-align:center; background:#FBF6EA}
+.pp-cert-k{font-family:var(--mono); font-size:10px; letter-spacing:.26em; color:var(--tx-faint)}
+.pp-cert-t{margin-top:10px; font-family:var(--display); font-size:clamp(24px,6vw,36px); letter-spacing:.22em; color:var(--red)}
+.pp-cert p{margin-top:13px; font-family:var(--serif); font-size:13.5px; line-height:1.9; color:#3B342B}
+.pp-cert-f{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top:20px; padding-top:11px;
+  border-top:1px solid var(--paper-line); font-size:11px; color:var(--tx-dim)}
+.pp-cert-f b{font-family:var(--mono); font-weight:400; letter-spacing:.08em}
+.pp-print{margin:16px auto 0; display:block; background:var(--red); color:#FBF5E9; border:0; padding:12px 26px;
+  font-family:var(--serif); font-size:14px; letter-spacing:.16em; min-height:44px}
+.pp-print:hover{background:var(--red-deep)}
+.pp-next{display:grid; gap:10px; margin-top:30px}
+.pp-next a{display:block; text-decoration:none; border:1px solid var(--paper-line); padding:14px 16px; background:#F7F2E6;
+  transition:border-color .3s, transform .3s}
+.pp-next a:hover{border-color:var(--red); transform:translateY(-2px)}
+.pp-next a b{display:block; font-family:var(--serif); font-size:15px; color:var(--red); letter-spacing:.04em}
+.pp-next a span{display:block; margin-top:4px; font-size:12px; color:var(--tx-dim); line-height:1.6}
+@media (min-width:760px){ .pp-grid{grid-template-columns:repeat(3,1fr)} .pp-next{grid-template-columns:1fr 1fr} }
+
+/* ============ 移动端适配增强 ============ */
+html{scroll-padding-top:66px; -webkit-text-size-adjust:100%}
+@media (max-width:719px){html{scroll-padding-top:104px}}
+textarea,input{font-size:16px}
+@media (max-width:719px){
+  :root{--pad:16px}
+  .wrap{padding:46px var(--pad)}
+  .topbar{padding:7px 10px 6px; gap:6px; flex-wrap:wrap}
+  .topnav{width:100%; flex-wrap:wrap; overflow:visible; gap:0}
+  .topnav a{padding:9px 9px; font-size:12px; display:inline-flex; align-items:center; min-height:40px}
+  .topnav a::after{left:9px; right:9px; bottom:4px}
+  .hero{min-height:520px; padding-top:128px}
+  .hero-side{flex-direction:column; align-items:flex-start; gap:14px}
+  .hero-lede{font-size:14.5px}
+  .seal{align-self:flex-end; width:62px; font-size:11.5px}
+  .figures{grid-template-columns:1fr 1fr}
+  .chap{gap:11px}
+  .chap .no{writing-mode:horizontal-tb; border-left:0; border-top:2px solid var(--red); height:auto;
+    padding:5px 0 0; letter-spacing:.16em; font-size:12px}
+  .chap .no.on-dark{border-left-color:transparent; border-top-color:var(--gold)}
+  .tl-item{grid-template-columns:50px 12px 1fr; gap:8px}
+  .toTop{right:12px; bottom:calc(14px + env(safe-area-inset-bottom))}
+  .dev{padding:15px 14px}
+}
+@media (hover:none){
+  .pp-stamp:hover{transform:none; border-color:var(--paper-line)}
+  .figures div:hover{background:var(--paper)}
+}
+@media print{
+  body{background:#fff}
+  .topbar,.grain,.toTop,.hero,.room:not(.passport-room),.pp-grid,.pp-top,.pp-next,.chap,.pp-print{display:none !important}
+  .passport-room{background:#fff}
+  .passport-room .wrap{padding:0}
+  .pp-cert{display:block !important; animation:none}
+  .pp-cert-in{outline-color:#999}
+  @page{margin:16mm}
+}
+</style>
+
+<!-- ============ 第三展厅 · 数据长廊 ============ -->
+<section class="room dark data-room" id="hall-3">
+  <div class="wrap">
+    <div class="chap">
+      <span class="no on-dark">叁</span>
+      <div>
+        <h2>数据长廊</h2>
+        <p class="sub">长征也可以用数据读：一支队伍的兵力曲线、一段路程的时间去向。图表里的每个数字都能回溯到公开史料，口径不同的地方，我们在图注里写清楚。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="data-top">
+      <div><div class="n">25000<small>里</small></div><div class="l">中央红军长征行程<br>1934.10—1935.10</div></div>
+      <div><div class="n">373<small>天</small></div><div class="l">中央红军自出发<br>至抵达吴起镇</div></div>
+      <div><div class="n">14<small>省</small></div><div class="l">四支红军队伍<br>转战省份合计</div></div>
+      <div><div class="n">18<small>山</small></div><div class="l">翻越大山<br>四支合计</div></div>
+      <div><div class="n">24<small>河</small></div><div class="l">跨过大河<br>四支合计</div></div>
+      <div><div class="n">380<small>余次</small></div><div class="l">进行战斗<br>四支合计</div></div>
+    </div>
+
+    <div class="charts">
+      <div class="chart-card">
+        <h3>中央红军兵力变化</h3>
+        <div class="cs">UNIT: 万人 / 1934.10 — 1935.10</div>
+        <div class="chart-box" id="chartTroops" role="img" aria-label="中央红军兵力由出发时8.6万人，湘江战役后锐减至3万余人，抵达陕北时约7000人"></div>
+        <div class="chart-fallback">出发 8.6 万 → 湘江之后 3 万余 → 抵达陕北 约 7000 人。</div>
+        <p class="chart-note">数据来源：中国共产党新闻网《一部气壮山河的英雄史诗》（出发 8.6 万余人、湘江后锐减至 3 万余人）；新华网《铸就我们民族的精神航道》（抵陕北 6000 余人，另一说 7000 余人，此处标注“约 7000”）。</p>
+      </div>
+      <div class="chart-card">
+        <h3>373 天怎样度过</h3>
+        <div class="cs">UNIT: 天 / 中央红军长征途中</div>
+        <div class="chart-box" id="chartDays" role="img" aria-label="中央红军长征373天中，日行军267天，作战41天，夜行军18天"></div>
+        <div class="chart-fallback">日行军 267 天，作战 41 天，夜行军 18 天，其余为驻止休整等。</div>
+        <p class="chart-note">数据来源：求是网《到达吴起，迎来胜利》。三项合计 326 天，<b>其余时间用于驻止休整、做群众工作等</b>，史料未逐日细分，故不另作推算。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第四展厅 · 精神与青年 ============ -->
+<section class="room spirit-room" id="hall-4">
+  <div class="wrap">
+    <div class="chap">
+      <span class="no">肆</span>
+      <div>
+        <h2>精神不是标语，是标尺</h2>
+        <p class="sub">支部把长征精神翻译成三把可以量的尺子：定力、韧劲、执行力。它们分别对应我们专业学习里的三件事——咬住目标、啃下难题、协同交付。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+    <div class="sp-grid">
+      <div class="sp">
+        <div class="q">革命理想高于天</div>
+        <div class="arrow">→ 对应</div>
+        <h3>咬定目标的定力</h3>
+        <p>一个模型训到第七轮还是不收敛，一行接口文档查了三小时。定力不是热血，是明知道还要很久，仍然把今天的这一步走完。</p>
+      </div>
+      <div class="sp">
+        <div class="q">万水千山只等闲</div>
+        <div class="arrow">→ 对应</div>
+        <h3>逢山开路的韧劲</h3>
+        <p>页面在手机上排版全乱、浮桥图纸对不上、投影投歪了三公分。工科生的“只等闲”，是把问题拆成可以定位的小块，然后一块一块地拆掉它。</p>
+      </div>
+      <div class="sp">
+        <div class="q">一切行动听指挥</div>
+        <div class="arrow">→ 对应</div>
+        <h3>令行禁止的执行力</h3>
+        <p>内容组出稿、前端组切图、现场组布展，三条线各有各的接口。分工不分家，是这套协同里最难也最关键的一条纪律。</p>
+      </div>
+    </div>
+
+    <div class="notes-h">
+      <h3>调试手记</h3>
+      <span>TEXT SAMPLES / 展馆文案示例</span>
+    </div>
+    <div class="notes">
+      <div class="note-card">
+        <p>凌晨一点，九站的坐标终于对齐了。那一刻我忽然明白，所谓“翻越”，不是喊出来的，是一格一格把版面调顺。</p>
+        <div class="who"><b>现场组</b><span>雪山展柜 · 布展记录</span></div>
+      </div>
+      <div class="note-card">
+        <p>画路线的时候，我把瑞金的经度填错了一位小数，整条线偏了四百公里。史料校对这件事，原来和写代码一样，差一个字符就全错。</p>
+        <div class="who"><b>前端组</b><span>数字行军图 · 坐标校准</span></div>
+      </div>
+      <div class="note-card">
+        <p>给同学讲泸定桥那天，我讲了三遍才不磕巴。后来懂了：能把一件事讲清楚，才算真的学过。</p>
+        <div class="who"><b>内容组</b><span>体验日 · 讲解员</span></div>
+      </div>
+      <div class="note-card">
+        <p>三组的东西第一次接上线是在活动室：屏幕上的点亮了，桌上的灯也亮了。那一刻大家都没说话——分工不分家，是真的。</p>
+        <div class="who"><b>支部统筹</b><span>联调 · 展馆排期</span></div>
+      </div>
+    </div>
+    <p class="flag-note">以上手记为展馆文案示例，用于展项排版与讲解演练；正式展出时由各小组以真实现场记录替换。</p>
+  </div>
+</section>
+
+<!-- ============ 第五展厅 · 留言墙 ============ -->
+<section class="room dark wall-room" id="hall-5">
+  <div class="wrap">
+    <div class="chap">
+      <span class="no on-dark">伍</span>
+      <div>
+        <h2>红色留言墙</h2>
+        <p class="sub">线下展馆里，参观者扫码写下感悟；这一版网页把留言存在你自己的浏览器里，刷新不丢，随时可删。团队每月整理一次，用来迭代展项。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+    <div class="wall-layout">
+      <div class="wall-form">
+        <label for="wallText">写下你的参观感悟 <span class="wc" id="wallChars">0 / 120</span></label>
+        <textarea id="wallText" maxlength="120" placeholder="例如：站在“草地”装置上灯带变红的那一秒，我才明白“看不见的危险”是什么意思。"></textarea>
+        <label for="wallName">署名（可留空，默认“匿名参观者”）</label>
+        <input id="wallName" maxlength="16" placeholder="班级 / 姓名">
+        <div class="wall-act">
+          <button type="button" id="wallSubmit">贴上留言墙</button>
+          <span class="cnt" id="wallCount">共 0 条</span>
+        </div>
+        <p class="wall-hint">留言仅保存在本机浏览器（localStorage），不会上传服务器。若要参与线下展馆的正式留言，请在现场扫描展板二维码。</p>
+      </div>
+      <div class="wall-list" id="wallList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第五展厅 · 电子护照 ============ -->
+<section class="room passport-room" id="hall-passport">
+  <div class="wrap">
+    <div class="chap">
+      <span class="no">陆</span>
+      <div>
+        <h2>电子护照 · 九站集章</h2>
+        <p class="sub">九站走完，护照盖满。手机、电脑都能点：每到一站点一下印章，进度存在本机；集满九枚可生成一张参观纪念页，截图或打印留档。团体参观时，讲解员会按这本护照带路。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="pp-top">
+      <div class="pp-count"><b id="ppNum">0</b><span>/ 9 站已至</span><div class="pp-bar"><i id="ppBar"></i></div></div>
+      <div class="pp-act">
+        <button type="button" id="ppVoice">朗读展馆导语</button>
+        <button type="button" id="ppReset">重置护照</button>
+      </div>
+    </div>
+
+    <div class="pp-grid" id="ppGrid" role="group" aria-label="九站集章"></div>
+
+    <div class="pp-cert" id="ppCert">
+      <div class="pp-cert-in">
+        <div class="pp-cert-k">CERTIFICATE / 参观纪念</div>
+        <div class="pp-cert-t">九 站 全 至</div>
+        <p>瑞金出发 · 湘江战役 · 遵义会议 · 四渡赤水 · 巧渡金沙江<br>飞夺泸定桥 · 翻越夹金山 · 穿越草地 · 会宁会师</p>
+        <p>愿你把这段路，走成自己的长征。</p>
+        <div class="pp-cert-f">
+          <span>2024级物联网工程团支部 · 长征·智联数字展馆</span>
+          <b id="ppDate"></b>
+        </div>
+      </div>
+      <button type="button" class="pp-print" id="ppPrint">打印 / 存为 PDF</button>
+    </div>
+
+    <div class="pp-next">
+      <a href="../a2/"><b>下一站 · 校园智行挑战赛 →</b><span>六个点位、五支连队，扫码进打卡页，看云端行军看板</span></a>
+      <a href="../a3/"><b>第三站 · 银龄数字生活手册 →</b><span>手机版手册，一页一个操作，可扫码带走</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 尾厅 ============ -->
+<section class="room dark foot-room" id="hall-6">
+  <div class="wrap" style="padding-bottom:36px">
+    <div class="chap">
+      <span class="no on-dark">尾</span>
+      <div>
+        <h2>参观信息</h2>
+        <p class="sub">展馆由 2024 级物联网工程团支部承建，是“物”联长征路，“芯”火永相传系列立项活动的第一站。后续还有校园智行挑战赛、社区银发课堂与成果展示。</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+    <div class="foot-grid">
+      <div class="foot-cell">
+        <div class="h">OPENING / 开放</div>
+        <div class="k"><b>2026年11月—12月</b><br>数字展馆体验日：另行公告<br>团体参观可提前预约讲解</div>
+      </div>
+      <div class="foot-cell">
+        <div class="h">VENUE / 地点</div>
+        <div class="k"><b>泉州师范学院</b><br>数学与计算机科学学院<br>物联网工程专业实验室</div>
+      </div>
+      <div class="foot-cell">
+        <div class="h">GUIDE / 讲解</div>
+        <ul>
+          <li><span>序厅 · 数字行军图</span> <em>内容组</em></li>
+          <li><span>智联装置区</span> <em>现场组</em></li>
+          <li><span>数据长廊</span> <em>前端组</em></li>
+          <li><span>红色留言墙</span> <em>全体团员</em></li>
+          <li>讲解员由支部团员轮流担任</li>
+        </ul>
+      </div>
+      <div class="foot-cell">
+        <div class="h">NOTICE / 须知</div>
+        <ul>
+          <li>展柜设备请按指引操作，请勿自行拆装</li>
+          <li>低温体验区单次不超过 3 分钟</li>
+          <li>拍照请勿使用闪光灯直射投影</li>
+          <li>留言墙内容请文明表达</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="signwrap">
+      <div class="sign">“物”联长征路 · “芯”火永相传</div>
+      <div style="margin-top:6px">2024级物联网工程团支部 · 数学与计算机科学学院 · 泉州师范学院</div>
+    </div>
+    <div class="src-list">
+      <a href="http://cpc.people.com.cn/n1/2016/1101/c369835-28825932.html" target="_blank" rel="noopener">人民网·一部气壮山河的英雄史诗</a>
+      <a href="http://www.qstheory.cn/laigao/2021-04/26/c_1127377213.htm" target="_blank" rel="noopener">求是网·到达吴起，迎来胜利</a>
+      <a href="http://paper.people.com.cn/rmzk/html/2021-07/27/content_3060159.htm" target="_blank" rel="noopener">人民日报·红军不怕远征难</a>
+      <a href="http://www.xinhuanet.com/politics/2016-10/19/c_129328531.htm" target="_blank" rel="noopener">新华网·铸就我们民族的精神航道</a>
+      <a href="https://www.dswxyjy.org.cn/BIG5/n1/2026/0607/c244516-40735230.html" target="_blank" rel="noopener">中央党史和文献研究院·长征</a>
+    </div>
+  </div>
+</section>
+
+<button class="toTop" id="toTop" aria-label="回到序厅">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script src="assets/echarts.min.js"></script>
+<script>
+/* ===== 节点数据（史实经史料核对，图片来源见展柜角标） ===== */
+const NODES = [
+  {t:"瑞金出发", d:"1934.10", tag:"NODE 01 / 09", img:"assets/ruijin_aerial.jpg", credit:"新华社",
+   meta:["江西·瑞金","于都河","8.6万余人"],
+   text:[
+     "1934年10月，中央红军主力五个军团及中央、军委机关和直属部队共8.6万余人，从江西于都出发，踏上战略转移的征途。出发前，于都百姓把门板、床板甚至寿材送到河边，架起浮桥，红军昼伏夜渡，四天四夜渡过于都河。",
+     "瑞金叶坪是中华苏维埃共和国临时中央政府所在地。1931年11月7日，第一次全国苏维埃代表大会在这座谢氏宗祠里召开，红色政权的各项机构就挤在木板隔出的小间里办公。"
+   ],
+   key:"<b>8.6万</b> 余人出发；<b>5</b> 座浮桥；四天四夜渡于都河",
+   iot:"出征前的物资与人员清点，对应展馆的<b>数据建模</b>：先把“谁、带什么、去哪儿”编码成结构化字段，后面的一切才有依据。"},
+  {t:"湘江血战", d:"1934.11", tag:"NODE 02 / 09", img:"assets/xiangjiang.jpg", credit:"新华社",
+   meta:["广西·全州","第四道封锁线","8.6万→3万余"],
+   text:[
+     "1934年11月27日至12月1日，中央红军在广西全州、兴安间抢渡湘江，与国民党军血战五昼夜。这是长征中最惨烈的一仗，也是关系中央红军生死存亡的关键一战。",
+     "渡过湘江后，中央红军由出发时的8.6万余人锐减到3万余人。红三十四师师长陈树湘腹部中弹被俘，在担架上扯断自己的肠子壮烈牺牲，年仅29岁。桂北至今流传：“三年不饮湘江水，十年不食湘江鱼。”"
+   ],
+   key:"<b>5</b> 昼夜血战；<b>8.6万</b> → <b>3万</b> 余人；红34师师长陈树湘牺牲时 <b>29</b> 岁",
+   iot:"这一仗教会我们的第一件事是<b>代价可计算</b>：把损失逐日记录、逐项归因，团队才知道问题出在通信、协同还是决策——数据不美化，改进才有起点。"},
+  {t:"遵义会议", d:"1935.01", tag:"NODE 03 / 09", img:"assets/zunyi.jpg", credit:"人民网",
+   meta:["贵州·遵义","子尹路96号","1935.1.15—17"],
+   text:[
+     "1935年1月15日至17日，中共中央政治局在遵义老城子尹路96号召开扩大会议。会议室在二楼，一间27平方米的长方形房间，正中一张长方桌，桌下放着一个火盆。",
+     "会议总结了第五次反“围剿”失败和长征初期失利的教训，事实上确立了毛泽东在党中央和红军的领导地位，是党的历史上一个生死攸关的转折点。"
+   ],
+   key:"<b>3</b> 天会议；<b>27</b> 平方米的会议室；一次改变中国革命走向的转折",
+   iot:"遵义会议是一次典型的<b>系统复盘与架构决策</b>：先定位真正的故障点，再换掉不合适的方案。写代码也一样——不改架构，只改参数，问题会一直复现。"},
+  {t:"四渡赤水", d:"1935.01—03", tag:"NODE 04 / 09", img:"assets/chishui.jpg", credit:"新华社",
+   meta:["贵州·赤水河","土城·茅台","四次渡河"],
+   text:[
+     "1935年1月至3月，中央红军在赤水河两岸四次渡河，忽东忽西、忽南忽北，以机动灵活的运动战调动敌军，先后在遵义地区击溃贵州王家烈部8个团、消灭吴奇伟部2个师，取得长征以来第一个大胜利。",
+     "四渡赤水被称作毛泽东军事指挥的“得意之笔”：不是硬碰硬，而是在有限的兵力与地形里，反复寻找最优解。"
+   ],
+   key:"<b>4</b> 次渡河；<b>3</b> 个月机动；长征以来<b>第一个大胜利</b>",
+   iot:"这就是<b>路径规划算法</b>的现实版：地图是动态的，对手在变，约束在变。最优解不是算一次，而是边走边算、边算边改。"},
+  {t:"巧渡金沙江", d:"1935.05", tag:"NODE 05 / 09", img:"assets/jinsha.jpg", credit:"资料图",
+   meta:["云南·禄劝","皎平渡","7只木船"],
+   text:[
+     "1935年5月，红军抵达金沙江畔。江水湍急，渡口船只已被敌人搜走。5月3日，刘伯承率先遣队以一昼夜百余公里的速度抢占皎平渡，找到7只小木船和36名船工。",
+     "七天七夜，2万余名红军靠这7只船渡过金沙江，跳出数十万敌军的围追堵截，取得了战略转移中的决定性胜利。"
+   ],
+   key:"<b>7</b> 只木船；<b>36</b> 名船工；<b>7</b> 天7夜；<b>2万</b> 余人渡江",
+   iot:"有限资源下的<b>调度与并发</b>：船只有7条、船工36位，谁先过、谁断后、如何轮转，全是排队与优先级问题——和任务队列调度一模一样。"},
+  {t:"飞夺泸定桥", d:"1935.05.29", tag:"NODE 06 / 09", img:"assets/luding.jpg", credit:"新华社",
+   meta:["四川·泸定","大渡河","22名突击队员"],
+   text:[
+     "1935年5月，红四团在团长王开湘、政委杨成武率领下，一昼夜奔袭240里，于29日晨赶到泸定桥，袭占西桥头。",
+     "29日16时，全团司号员集中吹响冲锋号，由第二连22名共产党员和积极分子组成的突击队，在连长廖大珠率领下攀着悬空的铁索向对岸冲去，夺下泸定桥，为中央红军打开北上通道。"
+   ],
+   key:"一昼夜奔袭 <b>240</b> 里；<b>22</b> 名突击队员；<b>16</b> 时发起夺桥战斗",
+   iot:"这是最极端的<b>实时性与时延控制</b>：240里奔袭就是抢一个截止时间，22人突击就是把全部资源压在最关键的一次事务上。"},
+  {t:"翻越夹金山", d:"1935.06", tag:"NODE 07 / 09", img:"assets/jiajin_snow.jpg", credit:"资料图",
+   meta:["四川·宝兴","夹金山","海拔4000余米"],
+   text:[
+     "1935年6月，中央红军翻越长征途中第一座大雪山——夹金山。山高路陡、空气稀薄，当地人称“神山”，说除了神仙，谁也翻不过去。",
+     "战士们穿着单衣、嚼着辣椒、拉着绑腿绳结队前行，许多人倒下就再没起来。翻过夹金山后，中央红军与红四方面军在懋功地区会师。"
+   ],
+   key:"海拔 <b>4000</b> 余米；长征<b>第一座</b>大雪山；翻越后与红四方面军<b>懋功会师</b>",
+   iot:"这正是展馆里那台<b>数显温湿度计</b>的来处：把“冷”变成可以读到的数字，让后来的人知道，那不是形容词。"},
+  {t:"穿越草地", d:"1935.08", tag:"NODE 08 / 09", img:"assets/caodi.jpg", credit:"资料图",
+   meta:["四川·松潘","松潘草地","约七天"],
+   text:[
+     "1935年8月，红军进入松潘草地。这里表面是草原，下面是深不见底的沼泽，一脚踩空便可能陷下去；没有村庄、没有粮食，青稞面吃完后，只能煮皮带、挖野菜。",
+     "约七天，队伍走出草地。这片“死亡之海”夺走了许多战士的生命，也成为长征精神最沉重的一页。"
+   ],
+   key:"约 <b>7</b> 天走出草地；沼泽遍布、无粮无水；<b>长征中最艰苦</b>的一段路",
+   iot:"草地展区用<b>一圈智能灯带与一台投影</b>去捕捉“看不见的危险”：真正致命的东西，往往没有明显信号，得先把它显形给人看。"},
+  {t:"会宁会师", d:"1936.10", tag:"NODE 09 / 09", img:"assets/huining.jpg", credit:"视觉中国",
+   meta:["甘肃·会宁","将台堡","三大主力会师"],
+   text:[
+     "1936年10月9日，红四方面军指挥部到达甘肃会宁，同红一方面军会合；10月22日，红二方面军指挥部到达隆德将台堡，同红一方面军会合。",
+     "红军三大主力会师，标志着举世闻名的长征胜利结束。从1934年10月到1936年10月，历时两年零五天。会师楼上，三面红旗终于举到了一起。"
+   ],
+   key:"<b>1936.10.9</b> 会宁会合；<b>10.22</b> 将台堡会师；历时 <b>2</b> 年零 <b>5</b> 天",
+   iot:"三支队伍、三个数据源最终汇聚到同一张表——这就是<b>多节点组网与数据汇聚</b>。协议可以不同，最终要能对上同一套坐标系。"}
+];
+
+/* ===== 展柜渲染 ===== */
+const nodes = Array.from(document.querySelectorAll('.node'));
+const caseImgs = Array.from(document.querySelectorAll('.case-fig .case-img'));
+const ui = {
+  tag:document.getElementById('caseTag'), credit:document.getElementById('caseCredit'),
+  title:document.getElementById('caseTitle'), date:document.getElementById('caseDate'), meta:document.getElementById('caseMeta'),
+  text:document.getElementById('caseText'), key:document.getElementById('caseKey'), iot:document.getElementById('caseIot'),
+  prev:document.getElementById('prevNode'), next:document.getElementById('nextNode')
+};
+let cur = 0;
+
+function render(i){
+  cur = (i + NODES.length) % NODES.length;
+  const n = NODES[cur];
+  caseImgs.forEach((im, idx) => im.classList.toggle('on', idx === cur));
+  caseImgs[cur].removeAttribute('loading');
+  ui.tag.textContent = n.tag;
+  ui.credit.textContent = n.credit;
+  ui.title.textContent = n.t;
+  ui.date.textContent = n.d;
+  ui.meta.innerHTML = n.meta.map(m => '<span>' + m + '</span>').join('');
+  ui.text.innerHTML = n.text.map(p => '<p>' + p + '</p>').join('');
+  ui.key.innerHTML = n.key;
+  ui.iot.innerHTML = n.iot;
+  nodes.forEach((el, idx) => el.setAttribute('aria-current', idx === cur ? 'true' : 'false'));
+  const prev = NODES[(cur - 1 + NODES.length) % NODES.length];
+  const next = NODES[(cur + 1) % NODES.length];
+  ui.prev.innerHTML = '<span>上一站</span>' + prev.t;
+  ui.next.innerHTML = '<span>下一站</span>' + next.t;
+  const body = document.querySelector('.case-body');
+  body.classList.remove('swap'); void body.offsetWidth; body.classList.add('swap');
+}
+nodes.forEach((el, idx) => {
+  el.addEventListener('click', () => { stopTour(); render(idx); });
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); stopTour(); render(idx); }
+  });
+});
+ui.prev.addEventListener('click', () => { stopTour(); render(cur - 1); });
+ui.next.addEventListener('click', () => { stopTour(); render(cur + 1); });
+
+/* ===== 顶部导览高亮 ===== */
+const navLinks = Array.from(document.querySelectorAll('.topnav a'));
+const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+(function(){
+  let last = -1;
+  function spy(){
+    const line = window.innerHeight * 0.42;
+    let idx = 0;
+    sections.forEach((s, i) => { if (s.getBoundingClientRect().top <= line) idx = i; });
+    if (idx === last) return;
+    last = idx;
+    navLinks.forEach((a, i) => a.classList.toggle('on', i === idx));
+  }
+  window.addEventListener('scroll', spy, {passive:true});
+  window.addEventListener('resize', spy);
+  spy();
+})();
+
+/* ===== 滚动：进度条、顶栏与首屏视差 ===== */
+(function(){
+  const prog = document.getElementById('prog');
+  const bar = document.querySelector('.topbar');
+  const par = document.querySelector('.hero-par');
+  const hero = document.getElementById('hall-0');
+  function update(){
+    const y = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.transform = 'scaleX(' + (max > 0 ? Math.min(y / max, 1).toFixed(4) : 0) + ')';
+    bar.classList.toggle('scrolled', y > 30);
+    if (par && hero && y < hero.offsetHeight * 1.3){
+      par.style.transform = 'translate3d(0,' + (y * 0.1).toFixed(1) + 'px,0)';
+    }
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  window.addEventListener('resize', update);
+  update();
+})();
+
+/* ===== 内容滚入视线 ===== */
+(function(){
+  const sel = '.chap,.figures,.tl-item,.map-stage,.case,.chain .st,.dev,.chart-card,.sp,.note-card,.foot-cell';
+  const items = Array.from(document.querySelectorAll(sel));
+  if (!items.length) return;
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (calm || !('IntersectionObserver' in window)){
+    items.forEach(el => el.classList.add('in'));
+    return;
+  }
+  const groups = new Map();
+  items.forEach(el => {
+    const p = el.parentElement;
+    const i = groups.get(p) || 0;
+    groups.set(p, i + 1);
+    el.classList.add('rv');
+    el.style.setProperty('--d', (Math.min(i, 4) * 0.07).toFixed(2) + 's');
+  });
+  let hit = false;
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+    hit = true;
+  }, {rootMargin:'0px 0px -6% 0px', threshold:0.08});
+  items.forEach(el => io.observe(el));
+  /* 兜底：观察器若始终未回报（如页面处于后台），3.5 秒后直接展示，绝不让正文停留在不可见状态 */
+  setTimeout(() => {
+    if (!hit) items.forEach(el => el.classList.add('in'));
+  }, 3500);
+})();
+
+/* ===== 行军图：路线绘出与自动巡展 ===== */
+let tourTimer = null;
+function stopTour(){
+  if (tourTimer){ clearInterval(tourTimer); tourTimer = null; }
+  const b = document.getElementById('tourBtn');
+  if (b){ b.setAttribute('aria-pressed','false'); b.querySelector('span').textContent = '自动巡展'; }
+}
+(function(){
+  const room = document.getElementById('hall-1');
+  const btn = document.getElementById('tourBtn');
+  if (!room || !btn) return;
+  let drawn = false;
+  function check(){
+    const r = room.getBoundingClientRect();
+    if (!drawn && r.top < window.innerHeight * 0.9){
+      room.classList.add('drawn');
+      drawn = true;
+    }
+    if (tourTimer && (r.bottom < 120 || r.top > window.innerHeight - 120)) stopTour();
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  window.addEventListener('resize', check);
+  check();
+
+  btn.addEventListener('click', () => {
+    if (tourTimer){ stopTour(); return; }
+    tourTimer = setInterval(() => render(cur + 1), 2800);
+    btn.setAttribute('aria-pressed','true');
+    btn.querySelector('span').textContent = '停止巡展';
+    room.classList.add('drawn');
+  });
+})();
+
+/* ===== 装置联动演示 ===== */
+(function(){
+  const aR = document.getElementById('aRange'), aV = document.getElementById('aVal'),
+        aBar = document.getElementById('aBar'), aOut = document.getElementById('aOut');
+  const bR = document.getElementById('bRange'), bV = document.getElementById('bVal'),
+        bStrip = document.getElementById('bStrip'), bOut = document.getElementById('bOut');
+  if (!aR || !bR) return;
+  const cells = Array.from(bStrip.querySelectorAll('i'));
+
+  function cold(){
+    const t = Number(aR.value);
+    aV.textContent = t + ' ℃';
+    aBar.style.width = ((t - 2) / 10 * 100) + '%';
+    aBar.style.background = t <= 4 ? '#A92D20' : (t <= 8 ? '#BE8C46' : '#8397A4');
+    aOut.textContent = t >= 10
+      ? '箱温 ' + t + '℃，加湿器关闭，灯泡暖白——队伍还在山脚。'
+      : t >= 7
+        ? '箱温 ' + t + '℃，加湿器低档，箱壁结霜，指尖开始发僵。'
+        : t >= 4
+          ? '箱温 ' + t + '℃，加湿器全开，灯泡转青，呼气可见白雾。'
+          : '箱温 ' + t + '℃，低温告警：单次体验不超过 3 分钟，先握稳再答题。';
+  }
+  function mire(){
+    const p = Number(bR.value);
+    bV.textContent = p;
+    const lit = Math.round(p / 10);
+    const col = p < 30 ? '#8397A4' : (p < 60 ? '#BE8C46' : '#C2402C');
+    cells.forEach((c, i) => { c.style.background = i < lit ? col : '#DED4C0'; });
+    bOut.textContent = p < 30
+      ? '情景 ' + p + '：草皮干燥，灯带青绿，投影静默。'
+      : p < 60
+        ? '情景 ' + p + '：局部下陷，灯带转琥珀，投影亮起“脚下是沼”。'
+        : '情景 ' + p + '：越过阈值，灯带红光渐亮，投影浮出当年的一页行军日记。';
+  }
+  aR.addEventListener('input', cold);
+  bR.addEventListener('input', mire);
+  cold(); mire();
+})();
+
+/* ===== 英雄谱 · 剪影纸片揭开 ===== */
+(function(){
+  const HEROES = [
+    {name:'陈树湘', en:'CHEN SHUXIANG · 1905—1934', role:'红五军团 · 第三十四师师长', tags:['湘江战役','绝命后卫师','断肠明志'],
+     meta:[['生卒','1905 — 1934 ｜ 29 岁'],['牺牲地','湖南道县'],['时任','红三十四师师长']],
+     deeds:[
+       '1934年11月湘江战役，他率红三十四师担任全军总后卫，掩护中央机关和主力渡江。全师六千余人几近打光，史称“绝命后卫师”。',
+       '12月，他在湖南道县腹部重伤被俘。敌人抬着他去长沙邀功，路上他撕开绷带，从伤口处扯断肠子，壮烈牺牲，年仅<b>29岁</b>。'
+     ],
+     quote:'“为苏维埃新中国流尽最后一滴血。”',
+     src:'史实依据：人民网·党史频道《绝命后卫师——红5军团第34师》；共产党员网《百年瞬间·血战湘江与绝命后卫师》。'},
+
+    {name:'董振堂', en:'DONG ZHENTANG · 1895—1937', role:'红五军团 · 军团长', tags:['宁都起义','长征铁卫','高台血战'],
+     meta:[['生卒','1895 — 1937 ｜ 42 岁'],['牺牲地','甘肃高台'],['时任','红五军团军团长']],
+     deeds:[
+       '1931年12月，他与赵博生、季振同等率第26路军一万七千余名官兵在江西宁都起义，整建制加入红军。',
+       '长征路上红五军团长期担任后卫。1937年1月，他率部坚守甘肃高台，与近十倍于己的敌军血战八天八夜，城破时壮烈牺牲。'
+     ],
+     quote:'“流尽最后一滴血，战斗到底！”',
+     src:'史实依据：中央党史和文献研究院《董振堂：“坚决革命的同志”》；人民网·党史频道《董振堂：长征“铁卫”》。'},
+
+    {name:'方志敏', en:'FANG ZHIMIN · 1899—1935', role:'红十军团 · 军政委员会主席', tags:['北上抗日','怀玉山','《可爱的中国》'],
+     meta:[['生卒','1899 — 1935 ｜ 36 岁'],['就义地','江西南昌'],['时任','红十军团军政委员会主席']],
+     deeds:[
+       '1934年11月，他率北上抗日先遣队出征，转战皖赣边。1935年1月在江西怀玉山被俘。',
+       '在南昌狱中，他拖着脚镣写下《可爱的中国》《清贫》。1935年8月6日就义，年仅<b>36岁</b>。'
+     ],
+     quote:'“清贫，洁白朴素的生活，正是我们革命者能够战胜许多困难的地方。”',
+     src:'史实依据：人民网·党史频道、中央党史和文献研究院方志敏专题资料；狱中文稿《可爱的中国》《清贫》。'},
+
+    {name:'邓萍', en:'DENG PING · 1908—1935', role:'红三军团 · 参谋长', tags:['遵义战役','前线侦察','军团级将领'],
+     meta:[['生卒','1908 — 1935 ｜ 27 岁'],['牺牲地','贵州遵义'],['时任','红三军团参谋长']],
+     deeds:[
+       '遵义会议后，他与彭德怀一起指挥红三军团两渡赤水、激战娄山关，随后直逼遵义城。',
+       '1935年2月27日，他在遵义老城前沿阵地侦察敌情时中弹牺牲，年仅<b>27岁</b>，是长征中牺牲的唯一一位军团级将领。'
+     ],
+     quote:'他把指挥所，搬到了离敌人最近的地方。',
+     src:'史实依据：新华网《牺牲在长征路上的红军高级将领》；人民网·党史频道《英雄史诗不朽丰碑》；国防部网《邓萍：遵义城下洒热血》。'},
+
+    {name:'刘志丹', en:'LIU ZHIDAN · 1903—1936', role:'红二十八军 · 军长', tags:['陕北根据地','渡河东征','群众领袖'],
+     meta:[['生卒','1903 — 1936'],['牺牲地','山西中阳三交镇'],['时任','红二十八军军长']],
+     deeds:[
+       '他是陕甘革命根据地的主要创建人之一，中央红军到达陕北时，落脚的地方正是他和战友们守下来的这片根据地。',
+       '1936年3月，他率红二十八军渡黄河东征。4月14日，在山西中阳三交镇战斗中，他在前沿观察敌情时左胸中弹牺牲。'
+     ],
+     quote:'“群众领袖，人民英雄。”——毛泽东题词',
+     src:'史实依据：人民网《中共“36位军事家”中有11位为革命牺牲》；陕西省图书馆《纪念旧址库·刘志丹》。'},
+
+    {name:'吴焕先', en:'WU HUANXIAN · 1907—1935', role:'红二十五军 · 政治委员', tags:['鄂豫陕根据地','红二十五军','四坡村'],
+     meta:[['生卒','1907 — 1935 ｜ 28 岁'],['牺牲地','甘肃泾川四坡村'],['时任','红二十五军政治委员']],
+     deeds:[
+       '他是鄂豫陕革命根据地创建人之一。1934年11月，红二十五军奉命长征，他任军政治委员。',
+       '1935年8月21日，部队在甘肃泾川四坡村遭敌突袭，他为掩护主力突围，率部抢占制高点时中弹牺牲，年仅<b>28岁</b>。'
+     ],
+     quote:'他倒在队伍最前面的那一刻，队伍才走了出去。',
+     src:'史实依据：人民网·党史频道《鄂豫陕苏区创建人——吴焕先》；新华网《牺牲在长征路上的红军高级将领》；中国军网专题。'}
+  ];
+
+  const roll = document.getElementById('hxRoll');
+  const info = document.getElementById('hxInfo');
+  const body = document.getElementById('hxBody');
+  let cur = 0;
+
+  function bodyHTML(h){
+    return '<div class="rule-top"></div>'
+      + '<div class="role">' + h.role + '</div>'
+      + '<h3 class="hx-name">' + h.name + '<small>' + h.en + '</small></h3>'
+      + '<div class="hx-deeds">' + h.deeds.map(function(p){ return '<p>' + p + '</p>'; }).join('') + '</div>'
+      + '<div class="hx-quote">' + h.quote + '</div>'
+      + '<dl class="hx-meta">' + h.meta.map(function(m){ return '<dt>' + m[0] + '</dt><dd>' + m[1] + '</dd>'; }).join('') + '</dl>'
+      + '<div class="hx-tags">' + h.tags.map(function(t){ return '<span>' + t + '</span>'; }).join('') + '</div>'
+      + '<p class="hx-src">' + h.src + '</p>';
+  }
+
+  function paintRoll(){
+    roll.innerHTML = HEROES.map(function(h, i){
+      const yr = (h.en.split('· ')[1] || '');
+      return '<button type="button" role="tab" data-i="' + i + '" aria-selected="' + (i === cur) + '"'
+        + ' aria-controls="hxBody" class="hx-item' + (i === cur ? ' on' : '') + '">'
+        + '<span class="no">' + String(i + 1).padStart(2, '0') + '</span>'
+        + '<span class="nm">' + h.name + '</span>'
+        + '<span class="yr">' + yr + '</span></button>';
+    }).join('');
+  }
+
+  function go(i){
+    cur = (i + HEROES.length) % HEROES.length;
+    const h = HEROES[cur];
+    body.innerHTML = bodyHTML(h);
+    paintRoll();
+  }
+
+  roll.addEventListener('click', function(e){
+    const b = e.target.closest('[data-i]');
+    if (b) go(Number(b.getAttribute('data-i')));
+  });
+
+  /* 键盘左右（仅在英雄谱区块获得焦点时生效，避免干扰其他区块的滑块） */
+  [roll, info].forEach(function(el){
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp'){ e.preventDefault(); go(cur - 1); }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown'){ e.preventDefault(); go(cur + 1); }
+    });
+  });
+
+  go(0);
+})();
+
+/* ===== 回到顶部 ===== */
+const toTop = document.getElementById('toTop');
+window.addEventListener('scroll', () => {
+  toTop.classList.toggle('on', window.scrollY > 600);
+}, {passive:true});
+toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+/* ===== 图表 ===== */
+(function(){
+  if (!window.echarts) {
+    document.querySelectorAll('.chart-box').forEach(el => { el.style.display = 'none'; });
+    document.querySelectorAll('.chart-fallback').forEach(el => { el.style.display = 'block'; });
+    return;
+  }
+  const txt = '#A79C8D', ink = 'rgba(237,229,216,.16)';
+  const base = {textStyle:{fontFamily:'"Noto Sans SC","PingFang SC",sans-serif'}, color:['#C2402C','#BE8C46','#8397A4']};
+
+  const c1 = echarts.init(document.getElementById('chartTroops'), null, {renderer:'svg'});
+  c1.setOption(Object.assign({}, base, {
+    grid:{left:8, right:14, top:34, bottom:6, containLabel:true},
+    xAxis:{type:'category', data:['1934.10\n出发','1934.11\n湘江之后','1935.10\n抵达陕北'],
+      axisLine:{lineStyle:{color:ink}}, axisTick:{show:false},
+      axisLabel:{color:txt, fontSize:11, lineHeight:15, interval:0}},
+    yAxis:{type:'value', max:10, interval:2, name:'万人', nameTextStyle:{color:txt, fontSize:10},
+      axisLabel:{color:txt, fontSize:11}, splitLine:{lineStyle:{color:'rgba(237,229,216,.08)'}}, axisLine:{show:false}},
+    tooltip:{trigger:'axis', backgroundColor:'rgba(17,16,14,.94)', borderColor:'rgba(237,229,216,.3)', textStyle:{color:'#EDE5D8', fontSize:12},
+      formatter: p => p[0].name.replace('\n',' ') + '<br/>兵力：<b>' + p[0].value + ' 万人</b>'},
+    series:[{
+      type:'bar', barWidth:'34%', data:[
+        {value:8.6, itemStyle:{color:'#E9E0CF'}},
+        {value:3.0, itemStyle:{color:'#C2402C'}},
+        {value:0.7, itemStyle:{color:'#8397A4'}}
+      ],
+      label:{show:true, position:'top', color:'#EDE5D8', fontSize:13, fontWeight:500, formatter:p => p.value + '万'},
+      itemStyle:{borderRadius:0}
+    }]
+  }));
+  c1.on('finished', () => {});
+
+  const c2 = echarts.init(document.getElementById('chartDays'), null, {renderer:'svg'});
+  c2.setOption(Object.assign({}, base, {
+    grid:{left:8, right:52, top:10, bottom:6, containLabel:true},
+    xAxis:{type:'value', max:280, show:false},
+    yAxis:{type:'category', data:['夜行军','作战','日行军'], inverse:true,
+      axisLine:{show:false}, axisTick:{show:false}, axisLabel:{color:txt, fontSize:12}},
+    tooltip:{trigger:'axis', backgroundColor:'rgba(17,16,14,.94)', borderColor:'rgba(237,229,216,.3)', textStyle:{color:'#EDE5D8', fontSize:12},
+      formatter: p => p[0].name + '：<b>' + p[0].value + ' 天</b>'},
+    series:[{
+      type:'bar', barWidth:16, data:[
+        {value:18, itemStyle:{color:'#8397A4'}},
+        {value:41, itemStyle:{color:'#BE8C46'}},
+        {value:267, itemStyle:{color:'#C2402C'}}
+      ],
+      label:{show:true, position:'right', color:'#EDE5D8', fontSize:12, formatter:'{c} 天'},
+      showBackground:true, backgroundStyle:{color:'rgba(237,229,216,.05)'}
+    }]
+  }));
+
+  const ro = new ResizeObserver(() => { c1.resize(); c2.resize(); });
+  ro.observe(document.getElementById('chartTroops').parentElement);
+})();
+
+/* ===== 留言墙 ===== */
+(function(){
+  const KEY = 'czzl_wall_v1';
+  const list = document.getElementById('wallList');
+  const cnt = document.getElementById('wallCount');
+  const box = document.getElementById('wallText');
+  const who = document.getElementById('wallName');
+
+  const seed = [
+    {t:"原来“爬雪山”不是一句形容词。舱里降温到 2℃ 的时候，我才握住那枚传感器明白：把感受量化，也是一种纪念。", n:"数计学院 · 参观者", d:"2026.11.12", demo:true},
+    {t:"行军图上那条线一共九站，我点了七遍，每一遍都要重新读一次史实。好展馆不是让你看，是让你停。", n:"匿名参观者", d:"2026.11.12", demo:true},
+    {t:"作为工科生，我记住了 7 只船 36 名船工这组数字——有限资源下的调度，比任何算法课都具体。", n:"物联网工程 · 陈", d:"2026.11.13", demo:true},
+    {t:"从瑞金到会宁，九个点位我一个一个点开看完。展馆不大，路很长。", n:"数计学院 · 辅导员", d:"2026.11.13", demo:true}
+  ];
+  function load(){
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { return []; }
+  }
+  function save(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch(e) {}
+  }
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function draw(fresh){
+    const mine = load();
+    const all = mine.concat(seed);
+    list.innerHTML = all.map((m, i) => {
+      const foot = '<div class="foot"><span>' + esc(m.n || '匿名参观者') + '</span><span>' + esc(m.d) + '</span></div>';
+      const del = m.demo ? '' : '<span class="demo" role="button" tabindex="0" data-del="' + i + '" style="cursor:pointer">删除</span>';
+      const tail = del ? '<div class="foot"><span>' + esc(m.n || '匿名参观者') + '</span><span style="display:flex;gap:10px"><span>' + esc(m.d) + '</span>' + del + '</span></div>' : foot;
+      return '<article class="slip"><p>' + esc(m.t) + '</p>' + tail + '</article>';
+    }).join('');
+    cnt.textContent = '共 ' + all.length + ' 条';
+    if (fresh && list.firstElementChild) list.firstElementChild.classList.add('new');
+    list.querySelectorAll('[data-del]').forEach(el => {
+      const act = () => {
+        const arr = load();
+        arr.splice(Number(el.getAttribute('data-del')), 1);
+        save(arr); draw();
+      };
+      el.addEventListener('click', act);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); act(); } });
+    });
+  }
+  document.getElementById('wallSubmit').addEventListener('click', () => {
+    const t = box.value.trim();
+    if (!t) { box.focus(); box.style.borderColor = '#C2402C'; setTimeout(()=>box.style.borderColor='', 1200); return; }
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const arr = load();
+    arr.unshift({t:t, n:who.value.trim() || '匿名参观者', d:d.getFullYear() + '.' + pad(d.getMonth()+1) + '.' + pad(d.getDate())});
+    save(arr); box.value = ''; who.value = ''; draw(true);
+    box.dispatchEvent(new Event('input'));
+    list.firstElementChild.scrollIntoView({block:'nearest', behavior:'smooth'});
+  });
+  const chars = document.getElementById('wallChars');
+  box.addEventListener('input', () => { chars.textContent = box.value.length + ' / 120'; });
+  draw();
+})();
+</script>
+<script>
+/* ===== 电子护照：九站集章（本机存储，不上传） ===== */
+(function(){
+  var grid = document.getElementById('ppGrid');
+  if (!grid) return;
+  var KEY = 'czlg-passport-v1', DKEY = 'czlg-passport-date';
+  var ST = [
+    {n:'瑞金出发', d:'1934.10', s:'于都河畔，8.6 万人四天四夜渡河'},
+    {n:'湘江战役', d:'1934.11', s:'绝命后卫师，江水尽赤'},
+    {n:'遵义会议', d:'1935.01', s:'生死攸关的转折点'},
+    {n:'四渡赤水', d:'1935.02', s:'三个多月，四次渡河'},
+    {n:'巧渡金沙江', d:'1935.05', s:'七条小船，九天九夜'},
+    {n:'飞夺泸定桥', d:'1935.05', s:'一昼夜 240 里，22 名突击队员'},
+    {n:'翻越夹金山', d:'1935.06', s:'长征第一座大雪山，海拔 4000 余米'},
+    {n:'穿越草地', d:'1935.08', s:'约七天，走出“死亡之海”'},
+    {n:'会宁会师', d:'1936.10', s:'三大主力会师，长征胜利结束'}
+  ];
+  var num = document.getElementById('ppNum'), bar = document.getElementById('ppBar');
+  var cert = document.getElementById('ppCert'), dateEl = document.getElementById('ppDate');
+  var done = [];
+  try { done = JSON.parse(localStorage.getItem(KEY) || '[]') || []; } catch(e){ done = []; }
+
+  function stampOf(i){ return grid.querySelector('[data-i="' + i + '"]'); }
+  function update(){
+    num.textContent = done.length;
+    bar.style.width = (done.length / ST.length * 100) + '%';
+    if (done.length === ST.length){
+      var d = '';
+      try { d = localStorage.getItem(DKEY) || ''; } catch(e){}
+      if (!d){
+        var now = new Date();
+        d = now.getFullYear() + '.' + ('0' + (now.getMonth()+1)).slice(-2) + '.' + ('0' + now.getDate()).slice(-2);
+        try { localStorage.setItem(DKEY, d); } catch(e){}
+      }
+      dateEl.textContent = d;
+      cert.classList.add('on');
+    } else {
+      cert.classList.remove('on');
+    }
+  }
+
+  ST.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pp-stamp';
+    b.setAttribute('data-i', i);
+    b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = '<span class="i">STATION 0' + (i+1) + '</span>' +
+                  '<span class="n">' + s.n + '</span>' +
+                  '<span class="d">' + s.d + '</span>' +
+                  '<span class="s">' + s.s + '</span>' +
+                  '<span class="sealmark" aria-hidden="true">已至</span>';
+    b.addEventListener('click', function(){
+      var k = done.indexOf(i);
+      if (k >= 0) done.splice(k, 1); else done.push(i);
+      b.setAttribute('aria-pressed', k >= 0 ? 'false' : 'true');
+      try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){}
+      update();
+    });
+    grid.appendChild(b);
+  });
+  done.forEach(function(i){ var b = stampOf(i); if (b) b.setAttribute('aria-pressed', 'true'); });
+  update();
+
+  var va = document.getElementById('ppVoice'), speaking = false;
+  va.addEventListener('click', function(){
+    if (!('speechSynthesis' in window)) { va.textContent = '本机不支持朗读'; return; }
+    if (speaking) { speechSynthesis.cancel(); speaking = false; va.textContent = '朗读展馆导语'; return; }
+    var u = new SpeechSynthesisUtterance('欢迎来到长征智联数字展馆。九个节点，从瑞金出发，到会宁会师。每到一站点亮一枚印章，九枚集满，可生成一张参观纪念页。');
+    u.lang = 'zh-CN'; u.rate = 0.92;
+    u.onend = function(){ speaking = false; va.textContent = '朗读展馆导语'; };
+    speechSynthesis.speak(u); speaking = true; va.textContent = '停止朗读';
+  });
+
+  document.getElementById('ppReset').addEventListener('click', function(){
+    if (!confirm('重置后本机九枚印章将全部清空，确定吗？')) return;
+    done = []; try { localStorage.removeItem(KEY); localStorage.removeItem(DKEY); } catch(e){}
+    grid.querySelectorAll('.pp-stamp').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+    update();
+  });
+
+  document.getElementById('ppPrint').addEventListener('click', function(){ window.print(); });
+})();
+</script>
+</body>
+</html>
