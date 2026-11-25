@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11100E">
+<title>行军战报 · 重走长征路校园智行挑战赛</title>
+<meta name="description" content="赛后一页纸：冠军连队、完整名次、六站热度与平均正确率，可打印或存为 PDF。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%2311100E'/%3E%3Cpath d='M12 46 L26 30 L38 38 L52 16' stroke='%23C2402C' stroke-width='4' fill='none'/%3E%3Ccircle cx='52' cy='16' r='5' fill='%23BE8C46'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="report-page">
+
+<header class="top">
+  <a class="brand" href="index.html">
+    <svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="3" fill="#A92D20"/><path d="M5 24 L13 15 L19 19 L27 7" stroke="#EFE7D8" stroke-width="2" fill="none"/><circle cx="27" cy="7" r="2.4" fill="#BE8C46"/></svg>
+    <b>行军战报</b><small>REPORT</small>
+  </a>
+  <nav>
+    <a href="index.html">赛制</a>
+    <a href="checkin.html">扫码打卡</a>
+    <a href="kanban.html">云端看板</a>
+    <a href="report.html" class="on">行军战报</a>
+  </nav>
+</header>
+
+<div class="sheet">
+  <div class="head">
+    <div class="l">“物”联长征路 · “芯”火永相传 · 立项活动二</div>
+    <div class="r" id="dateTag">—</div>
+  </div>
+
+  <h1>行军战报</h1>
+  <p class="sub">重走长征路 · 校园智行挑战赛 · 2024级物联网工程团支部</p>
+
+  <div class="champ" id="champ" style="display:none">
+    <div class="k">CHAMPION / 行军先锋连队</div>
+    <div class="n" id="champName">—</div>
+    <div class="s" id="champSub"></div>
+  </div>
+
+  <div class="acts no-print">
+    <button class="btn" id="printBtn">打印 / 存为 PDF</button>
+    <a class="btn ghost" href="kanban.html">回到看板录入</a>
+  </div>
+
+  <p id="emptyTip" style="display:none;margin-top:22px;font-size:13px;color:#6E6355;line-height:1.9">
+    这台设备上还没有比赛数据。请先到「云端看板」录入，或在看板里载入演示数据，再回到本页生成战报。
+  </p>
+
+  <div id="body" style="display:none">
+
+    <div style="margin-top:22px">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--tx-faint)">RANKING / 名次</div>
+      <table id="rankTable"></table>
+    </div>
+
+    <div style="margin-top:22px">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--tx-faint)">STATION HEAT / 六站热度（完成该站的连队数）</div>
+      <div class="bars" id="bars"></div>
+    </div>
+
+    <div style="margin-top:22px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:repeat(2,1fr)" id="facts">
+    </div>
+
+    <div class="foot">
+      <span>2024级物联网工程团支部 · 数学与计算机科学学院 · 泉州师范学院</span>
+      <span id="footDate"></span>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  var data = CZ.load();
+  var rows = CZ.stats(data);
+  var total = 0, started = 0, sumRate = 0;
+  rows.forEach(function(r){ total += r.arrived; if (r.arrived){ started++; sumRate += r.rate; } });
+
+  document.getElementById('dateTag').textContent = '生成于 ' + CZ.fmtDate(Date.now());
+  document.getElementById('footDate').textContent = '生成于 ' + CZ.fmtDate(Date.now());
+
+  if (!total){
+    document.getElementById('emptyTip').style.display = 'block';
+    document.getElementById('body').style.display = 'none';
+  } else {
+    document.getElementById('body').style.display = 'block';
+    var best = rows[0];
+    var champ = document.getElementById('champ');
+    champ.style.display = 'block';
+    document.getElementById('champName').textContent = best.name;
+    document.getElementById('champSub').textContent = '到站 ' + best.arrived + ' / 6 · 总用时 ' + best.mins + ' 分钟 · 正确率 ' + best.rate + '%';
+
+    var t = document.createElement('table');
+    t.innerHTML = '<tr><th>名次</th><th>连队</th><th>到站</th><th>总用时</th><th>得分</th><th>正确率</th></tr>';
+    rows.forEach(function(r){
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + (r.arrived ? r.rank : '—') + '</td><td>' + r.name + '</td>' +
+        '<td>' + r.arrived + ' / 6</td><td>' + (r.arrived ? r.mins + ' 分' : '—') + '</td>' +
+        '<td>' + r.score + ' / 12</td><td>' + (r.arrived ? r.rate + '%' : '—') + '</td>';
+      t.appendChild(tr);
+    });
+    document.getElementById('rankTable').parentNode.replaceChild(t, document.getElementById('rankTable'));
+
+    var bars = document.getElementById('bars');
+    CZ.STATIONS.forEach(function(s){
+      var n = 0;
+      rows.forEach(function(r){
+        (data.teams[r.id].records || []).forEach(function(x){ if (x.s === s.id) n++; });
+      });
+      var pct = Math.round(n / rows.length * 100);
+      var row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML = '<span class="t">' + s.no + ' ' + s.name + '</span>' +
+        '<span class="b"><i style="width:' + pct + '%"></i></span>' +
+        '<span class="v">' + n + ' 队</span>';
+      bars.appendChild(row);
+    });
+
+    var facts = document.getElementById('facts');
+    var cells = [
+      ['已出发连队', started + ' / 5 支'],
+      ['到站记录', total + ' 次'],
+      ['平均正确率', started ? Math.round(sumRate / started) + '%' : '—'],
+      ['全程最快', (function(){ var m=null; rows.forEach(function(r){ if(r.done && (m===null || r.mins<m)) m=r.mins; }); return m===null?'暂无全胜':m+' 分钟'; })()]
+    ];
+    cells.forEach(function(c){
+      var d = document.createElement('div');
+      d.style.cssText = 'background:var(--paper-2);padding:14px 12px';
+      d.innerHTML = '<div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:#9C9184">' + c[0] + '</div>' +
+        '<div style="margin-top:5px;font-family:var(--display);font-size:22px;color:#A92D20">' + c[1] + '</div>';
+      facts.appendChild(d);
+    });
+  }
+
+  document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
+})();
+</script>
+</body>
+</html>
