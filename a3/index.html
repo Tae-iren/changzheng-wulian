@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBF7EC">
+<title>数字生活手册 · 一页一个操作 | 2024级物联网工程团支部</title>
+<meta name="description" content="银发数字生活手册：连 WiFi、调大字、微信视频、手机挂号、扫码乘车、打车、拍照、防诈骗。一页一个操作，图多字少，可打印。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23151311'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='30' fill='%23C2402C'%3E手%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="manual.css">
+<style>
+  .bar{position:sticky; top:0; z-index:30; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:10px 16px; background:rgba(251,247,236,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(8px)}
+  .bar .b{font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--tx-faint)}
+  .bar .b b{font-family:var(--display); font-size:15px; letter-spacing:.06em; color:var(--ink)}
+  .bar .act{display:flex; gap:8px}
+  .bar button,.bar a{min-height:40px; padding:8px 14px; border:1px solid var(--line); background:none;
+    font-family:var(--serif); font-size:13px; color:var(--tx); text-decoration:none; display:inline-flex; align-items:center}
+  .bar button:hover,.bar a:hover{border-color:var(--red); color:var(--red)}
+  @media screen and (max-width:440px){
+    .bar{padding:8px 10px; gap:6px}
+    .bar .b{font-size:9px; letter-spacing:.1em}
+    .bar .b b{font-size:13px}
+    .bar .act{gap:6px}
+    .bar button,.bar a{min-height:36px; padding:6px 9px; font-size:12px}
+  }
+  .toc{margin-top:6mm; display:grid; gap:0}
+  .toc a{display:grid; grid-template-columns:14mm 1fr auto; gap:4mm; padding:3.6mm 0; border-bottom:1px solid var(--line);
+    text-decoration:none; color:var(--tx); font-size:10.5pt}
+  .toc a .n{font-family:var(--mono); font-size:8.5pt; color:var(--red); letter-spacing:.08em}
+  .toc a .p{font-family:var(--mono); font-size:8.5pt; color:var(--tx-faint)}
+  @media screen and (max-width:820px){
+    .toc a{grid-template-columns:44px 1fr auto; padding:14px 0; font-size:16px}
+    .toc a .n{font-size:11px} .toc a .p{font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar noprint">
+  <div class="b"><b>数字生活手册</b> · 银龄课堂</div>
+  <div class="act">
+    <a href="digital-life-manual.pdf" download>下载 PDF</a>
+    <button type="button" id="printBtn">打印</button>
+    <a href="../a2/">活动二</a>
+  </div>
+</div>
+
+<!-- 封面 -->
+<section class="sheet cover">
+  <div class="top">2024级物联网工程团支部 · “智”暖银龄 · 立项活动三</div>
+
+  <div>
+    <h1>数字生活手册<br><em>一页一个操作</em></h1>
+    <p class="sub">给爸爸妈妈、爷爷奶奶的八堂手机课——不用记步骤，翻到哪页做哪页。</p>
+    <div class="fig">
+      <span>8 个常用场景</span><span>大字号 · 少文字</span><span>可打印 · 可扫码</span>
+    </div>
+    <div class="cover-quote">
+      <div class="q">“不怕学不会，只怕没人教。”</div>
+      <div class="s">我们把年轻人天天在用的手机功能，拆成一页页能照着做的动作。<br>您慢慢学，我们一次次来。</div>
+    </div>
+  </div>
+
+  <div class="cv-bottom">
+    <div class="who">
+      编写：2024级物联网工程团支部<br>
+      指导：许彬清<br>
+      使用：2027年3月 · 社区银发课堂<br>
+      说明：本手册免费发放，可复印
+    </div>
+    <div class="qrbox">
+      <img src="qr-web.png" alt="扫码阅读手机版数字生活手册">
+    </div>
+  </div>
+  <div class="footno">01</div>
+</section>
+
+<!-- 目录 -->
+<section class="sheet">
+  <div class="brandbar"><span>数字生活手册</span><span>CONTENTS</span></div>
+  <div class="lesson-no">目录</div>
+  <h2>八堂课，先学最用得上的</h2>
+  <p class="goal">建议顺序：先连网、再调字，然后视频、挂号、扫码、打车、拍照，最后一课讲防骗。每课练一遍，就算学会。</p>
+  <div class="toc">
+    <a href="#l1"><span class="n">01</span><span>连上家里的 WiFi</span><span class="p">P03</span></a>
+    <a href="#l2"><span class="n">02</span><span>把字调大，把屏幕调亮</span><span class="p">P04</span></a>
+    <a href="#l3"><span class="n">03</span><span>微信视频，和儿女面对面</span><span class="p">P05</span></a>
+    <a href="#l4"><span class="n">04</span><span>手机挂号，不用排长队</span><span class="p">P06</span></a>
+    <a href="#l5"><span class="n">05</span><span>扫码乘车与付款</span><span class="p">P07</span></a>
+    <a href="#l6"><span class="n">06</span><span>用手机叫一辆车</span><span class="p">P08</span></a>
+    <a href="#l7"><span class="n">07</span><span>拍照、存照片、发给家人</span><span class="p">P09</span></a>
+    <a href="#l8"><span class="n">08</span><span>防诈骗三条底线</span><span class="p">P10</span></a>
+  </div>
+  <p class="help" style="margin-top:8mm"><b>怎么用：</b>每页右上角是页码，翻到对应页；一页只做一件事，做完打个勾再翻下一页。</p>
+  <div class="footno">02</div>
+</section>
+
+<!-- 01 -->
+<section class="sheet" id="l1">
+  <div class="brandbar"><span>第一课 · 连网</span><span>01 / 08</span></div>
+  <div class="lesson-no">LESSON 01</div>
+  <h2>连上家里的 WiFi</h2>
+  <p class="goal">目标：让手机用上家里的网，不花流量费，看视频也不卡。</p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div class="t">在主屏幕上找到 <b>“设置”</b>（齿轮图标），点开。</div></div>
+    <div class="step"><span class="n">2</span><div class="t">找到 <b>“无线局域网”</b>（安卓手机叫 <b>“WLAN”</b>），把它打开。</div></div>
+    <div class="step"><span class="n">3</span><div class="t">在列表里找到你家的 WiFi 名字，点一下。</div></div>
+    <div class="step"><span class="n">4</span><div class="t">输入密码。<b>密码区分大小写</b>，慢慢输，输完点“连接”。</div></div>
+    <div class="step"><span class="n">5</span><div class="t">名字下面出现 <b>“已连接”</b>，就成功了。</div></div>
+  </div>
+  <div class="note">
+    <div class="k">TIPS / 小贴士</div>
+    <p>WiFi 名字和密码通常印在路由器背面的标签上；家里换过密码，问一下装宽带的人或子女。外面没有密码的陌生 WiFi 不要连。</p>
+  </div>
+  <p class="help"><b>连不上怎么办：</b>先把 WiFi 关掉再打开；还不行，把路由器电源拔掉，等十秒再插上，等两分钟再连。</p>
+  <div class="drill"><b>今天就练：</b>把手机连上家里的 WiFi，再打开微信，给家人发一条语音：“我连上网了。”</div>
+  <div class="footno">03</div>
+</section>
+
+<!-- 02 -->
+<section class="sheet" id="l2">
+  <div class="brandbar"><span>第二课 · 看得清</span><span>02 / 08</span></div>
+  <div class="lesson-no">LESSON 02</div>
+  <h2>把字调大，把屏幕调亮</h2>
+  <p class="goal">目标：不用眯眼、不用找老花镜，也能看清屏幕上的字。</p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div class="t">打开 <b>“设置”</b>，找 <b>“显示”</b>（有的手机叫“显示和亮度”）。</div></div>
+    <div class="step"><span class="n">2</span><div class="t">点 <b>“字体大小”</b>，把圆点往右边拖，拖到“大”或“超大”。</div></div>
+    <div class="step"><span class="n">3</span><div class="t">回到桌面，看看微信里的字是不是变大了；不够大就再调一档。</div></div>
+    <div class="step"><span class="n">4</span><div class="t">屏幕太暗：从屏幕最上面往下拉，找到亮度条，往右拖亮一点。</div></div>
+  </div>
+  <div class="note">
+    <div class="k">TIPS / 小贴士</div>
+    <p>亮度不用拉满，太亮费电、刺眼。白天在太阳底下看不清，是正常的，走到阴凉处再看。字调大以后，一屏显示的内容会变少，这是正常的，往下滑就行。</p>
+  </div>
+  <p class="help"><b>找不到“显示”怎么办：</b>在设置页面顶部的搜索框里输入“字体”，点搜索结果里的“字体大小”。</p>
+  <div class="drill"><b>今天就练：</b>把字体调到“大”，打开微信读一篇文章，看看还需不需要眯眼。</div>
+  <div class="footno">04</div>
+</section>
+
+<!-- 03 -->
+<section class="sheet" id="l3">
+  <div class="brandbar"><span>第三课 · 见面</span><span>03 / 08</span></div>
+  <div class="lesson-no">LESSON 03</div>
+  <h2>微信视频，和儿女面对面</h2>
+  <p class="goal">目标：自己拨通视频电话，看得见人、听得见声。</p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div class="t">打开 <b>微信</b>，点下面的 <b>“通讯录”</b>，找到要联系的人。</div></div>
+    <div class="step"><span class="n">2</span><div class="t">点开他的名字，在资料页里点 <b>“视频通话”</b>。</div></div>
+    <div class="step"><span class="n">3</span><div class="t">等对方接听。接通后，把手机举到脸的正前方，别对着天花板。</div></div>
+    <div class="step"><span class="n">4</span><div class="t">想挂断，点屏幕上的 <b>红色按钮</b>。</div></div>
+  </div>
+  <div class="note">
+    <div class="k">TIPS / 小贴士</div>
+    <p>拨之前先发一句“现在方便吗”，对方可能在开会。网络不好、画面卡住，就换成“语音通话”。视频时手机容易发烫，说久了歇一歇。</p>
+  </div>
+  <p class="help"><b>听不到声音：</b>先按手机侧面的音量键调大，再看屏幕上有没有“免提”两个字，点亮它。</p>
+  <div class="drill"><b>今天就练：</b>给家人拨一次视频通话，说满一分钟，再自己按红色按钮挂断。</div>
+  <div class="footno">05</div>
+</section>
+
+<!-- 04 -->
+<section class="sheet" id="l4">
+  <div class="brandbar"><span>第四课 · 挂号</span><span>04 / 08</span></div>
+  <div class="lesson-no">LESSON 04</div>
+  <h2>手机挂号，不用排长队</h2>
+  <p class="goal">目标：在手机上约到医院的号，按时间去，不用凌晨排队。</p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div class="t">打开微信，点右上角“放大镜”，搜索 <b>医院的名字</b>，认准带 <b>蓝色认证标志</b> 的公众号。</div></div>
+    <div class="step"><span class="n">2</span><div class="t">关注后，点下面的 <b>“就诊服务”</b> 或“预约挂号”。</div></div>
+    <div class="step"><span class="n">3</span><div class="t">选科室、选医生、选日期和时段；第一次用要填 <b>姓名、身份证号、手机号</b>。</div></div>
+    <div class="step"><span class="n">4</span><div class="t">确认后，手机会收到“预约成功”的消息，上面写着几点到几楼几诊室。</div></div>
+  </div>
+  <div class="note">
+    <div class="k">TIPS / 小贴士</div>
+    <p>第一次绑定信息，最好让子女在旁边帮着填一遍，以后就能自己约。医院门口有人举着二维码让你“扫码加号”，不要扫。</p>
+  </div>
+  <p class="help"><b>号满了怎么办：</b>打医院官方电话问放号时间，或让子女用他们的手机帮你约；不要相信“花钱买号”的人。</p>
+  <div class="drill"><b>今天就练：</b>在微信里搜一家常去的医院公众号，找到“预约挂号”入口（先不真挂）。</div>
+  <div class="footno">06</div>
+</section>
+
+<!-- 05 -->
+<section class="sheet" id="l5">
+  <div class="brandbar"><span>第五课 · 扫码</span><span>05 / 08</span></div>
+  <div class="lesson-no">LESSON 05</div>
+  <h2>扫码乘车与付款</h2>
+  <p class="goal">目标：上公交、进地铁、买菜付款，一部手机就够。</p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div class="t">乘车：打开微信或支付宝，点 <b>“乘车码”</b>（地铁里也叫“地铁码”）。</div></div>
+    <div class="step"><span class="n">2</span><div class="t">把手机屏幕上的码，对准闸机或车上的 <b>扫码窗口</b>，听到“嘀”一声再走。</div></div>
+    <div class="step"><span class="n">3</span><div class="t">付款：打开 <b>“收付款”</b>，让店家扫你的码；或你扫店家的收款码，输入金额。</div></div>
+    <div class="step"><span class="n">4</span><div class="t">付完看一眼前面的数字，确认金额对了，再离开柜台。</div></div>
+  </div>
+  <div class="note">
+    <div class="k">TIPS / 小贴士</div>
+    <p>付款码等于钱包，<b>不给陌生人看，不截图发给别人</b>。乘车码和付款码不是一回事，上车用乘车码。手机没网时码刷不出来，提前打开。</p>
+  </div>
+  <p class="help"><b>刷不上：</b>把屏幕调亮一点再对准；还不行就换一个闸机，或找站务员走人工通道。</p>
+  <div class="drill"><b>今天就练：</b>打开乘车码，先看清屏幕上是“乘车码”还是“付款码”，再关掉。</div>
+  <div class="footno">07</div>
+</section>
+
+<!-- 06 -->
+<section class="sheet" id="l6">
+  <div class="brandbar"><span>第六课 · 打车</span><span>06 / 08</span></div>
+  <div class="lesson-no">LESSON 06</div>
+  <h2>用手机叫一辆车</h2>
+  <p class="goal">目标：下雨天、拿重东西时，不用站在路边招手。</p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div class="t">打开微信，点 <b>“我—服务”</b>，找到 <b>“打车”</b>（或单独的打车软件）。</div></div>
+    <div class="step"><span class="n">2</span><div class="t">在上面一格填 <b>你要去哪儿</b>；下面一格确认“在哪儿上车”，可以拖动地图改位置。</div></div>
+    <div class="step"><span class="n">3</span><div class="t">点“呼叫车辆”，等司机接单。页面上会显示 <b>车牌号、车型、几分钟到</b>。</div></div>
+    <div class="step"><span class="n">4</span><div class="t">上车前核对车牌，<b>车牌不对就不上</b>；到达后自动扣款，不用给小费。</div></div>
+  </div>
+  <div class="note">
+    <div class="k">TIPS / 小贴士</div>
+    <p>上车前把车牌号发给家人，说一句“我坐这辆车回家”。不熟悉的地方，让司机按导航走，别绕路。深夜尽量结伴，或让家人代叫。</p>
+  </div>
+  <p class="help"><b>找不到车：</b>页面上有司机的电话，点一下就能打过去；实在找不到，取消订单重新叫。</p>
+  <div class="drill"><b>今天就练：</b>打开打车页，输入“泉州师范学院”，看一眼预估车费，再取消订单。</div>
+  <div class="footno">08</div>
+</section>
+
+<!-- 07 -->
+<section class="sheet" id="l7">
+  <div class="brandbar"><span>第七课 · 拍照</span><span>07 / 08</span></div>
+  <div class="lesson-no">LESSON 07</div>
+  <h2>拍照、存照片、发给家人</h2>
+  <p class="goal">目标：拍清楚、找得到、发得出去。</p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div class="t">打开 <b>“相机”</b>，把手机拿稳，对准要拍的东西。</div></div>
+    <div class="step"><span class="n">2</span><div class="t">点下面 <b>白色的大圆钮</b> 拍照；想拍全景，点“全景”慢慢横着移动。</div></div>
+    <div class="step"><span class="n">3</span><div class="t">看照片：点左下角的小方块，进入 <b>“相册”</b>。</div></div>
+    <div class="step"><span class="n">4</span><div class="t">发给家人：在微信聊天里点 <b>“＋”→“相片”</b>，选中照片，点“发送”。</div></div>
+  </div>
+  <div class="note">
+    <div class="k">TIPS / 小贴士</div>
+    <p>拍身份证、银行卡、病历，<b>不要开美颜</b>，字会糊。重要的照片（证件、单据）发给子女存一份，手机丢了也不怕。</p>
+  </div>
+  <p class="help"><b>找不到照片：</b>相册里点“全部照片”或“最近”，往下翻；照片太多时，用上面的“搜索”按日期找。</p>
+  <div class="drill"><b>今天就练：</b>拍一张窗外的树或家里的花，发给家人，等他们回一句。</div>
+  <div class="footno">09</div>
+</section>
+
+<!-- 08 -->
+<section class="sheet" id="l8">
+  <div class="brandbar"><span>第八课 · 防骗</span><span>08 / 08</span></div>
+  <div class="lesson-no">LESSON 08</div>
+  <h2>防诈骗三条底线</h2>
+  <p class="goal">目标：记住三句话，守住养老钱。</p>
+  <div class="steps">
+    <div class="step"><span class="n">一</span><div class="t"><b>不点陌生链接。</b>短信、微信群里发来的“领补贴”“退快递”“积分兑换”，一律不点。</div></div>
+    <div class="step"><span class="n">二</span><div class="t"><b>不给验证码。</b>任何人——包括自称银行、公安、客服——要你念短信里的数字，都是骗子。</div></div>
+    <div class="step"><span class="n">三</span><div class="t"><b>不给陌生账户转钱。</b>先挂掉，再给子女或社区民警打电话核实。</div></div>
+  </div>
+  <div class="note">
+    <div class="k">TIPS / 小贴士</div>
+    <p>真警察不会用电话办案、不会让你转账“自证清白”；“百万保障到期要扣费”“快递理赔要加微信”都是常见骗局。拿不准，就挂电话。</p>
+  </div>
+  <p class="help"><b>已经转钱了：</b>立刻打 <b>110</b>，同时打银行客服冻结账户；把聊天记录、转账记录截图留好。</p>
+  <div class="drill"><b>今天就练：</b>把子女和社区民警的电话存进通讯录，加上“紧急”两个字。</div>
+  <div class="footno">10</div>
+</section>
+
+<script>
+document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
+</script>
+</body>
+</html>
