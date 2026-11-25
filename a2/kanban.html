@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11100E">
+<title>云端行军看板 · 重走长征路校园智行挑战赛</title>
+<meta name="description" content="总控台大屏：五支连队的行进矩阵、实时排名、正确率与到站用时，支持现场录入与一键导出。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%2311100E'/%3E%3Cpath d='M12 46 L26 30 L38 38 L52 16' stroke='%23C2402C' stroke-width='4' fill='none'/%3E%3Ccircle cx='52' cy='16' r='5' fill='%23BE8C46'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<style>
+  body.big .wrap{max-width:none; padding-left:14px; padding-right:14px}
+  body.big .kpis{grid-template-columns:repeat(4,1fr)}
+  body.big .kpi .v{font-size:clamp(34px,4.4vw,62px)}
+  body.big .matrix th,body.big .matrix td{font-size:clamp(12px,1.3vw,18px); padding:14px 8px}
+  body.big .matrix td.name{font-size:clamp(16px,1.7vw,24px)}
+  body.big .matrix .dot{width:clamp(14px,1.6vw,22px); height:clamp(14px,1.6vw,22px)}
+  body.big .rank th,body.big .rank td{font-size:clamp(13px,1.35vw,20px); padding:13px 12px}
+  body.big .admin,body.big .hero,body.big .top nav,body.big #hint{display:none}
+  body.big .hero-slim{display:flex}
+  .hero-slim{display:none; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px;
+    border-bottom:1px solid rgba(237,229,216,.14)}
+  .hero-slim h1{font-size:clamp(22px,2.6vw,34px); color:#F4EDE0}
+  .hero-slim .live{font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:var(--gold)}
+  .live i{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--red-2); margin-right:6px;
+    animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:.35} 50%{opacity:1}}
+  .empty{padding:26px 16px; border:1px dashed rgba(237,229,216,.24); color:var(--on-dim); font-size:13px; line-height:1.9; margin-top:16px}
+  .empty b{color:var(--gold); font-weight:400}
+</style>
+</head>
+<body class="dark">
+
+<header class="top">
+  <a class="brand" href="index.html">
+    <svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="3" fill="#A92D20"/><path d="M5 24 L13 15 L19 19 L27 7" stroke="#EFE7D8" stroke-width="2" fill="none"/><circle cx="27" cy="7" r="2.4" fill="#BE8C46"/></svg>
+    <b>云端行军看板</b><small>LIVE BOARD</small>
+  </a>
+  <nav>
+    <a href="index.html">赛制</a>
+    <a href="checkin.html">扫码打卡</a>
+    <a href="kanban.html" class="on">云端看板</a>
+    <a href="report.html">行军战报</a>
+    <a href="#" id="bigBtn">大屏模式</a>
+  </nav>
+</header>
+
+<div class="hero-slim">
+  <h1>「重走长征路」实时行军看板</h1>
+  <div class="live"><i></i>LIVE · <span id="clock2">—</span></div>
+</div>
+
+<section class="hero" style="padding-bottom:26px">
+  <div class="wrap" style="padding-top:0;padding-bottom:0">
+    <div class="kicker"><b>LIVE</b> · 2027.01 · 总控台大屏</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-top:10px">
+      <div>
+        <h1 style="margin:0">实时行军看板</h1>
+        <p class="lede" style="margin-top:8px">值守同学把每队的到站码录入后，大屏立即刷新：谁在路上、谁已到站、谁答得准。数据存在本机，刷新不丢，可一键导出给战报页。</p>
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--on-dim);letter-spacing:.1em">
+        最近更新 <span id="clock">—</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="darkblk">
+  <div class="wrap" style="padding-top:22px">
+    <div class="kpis">
+      <div class="kpi"><div class="k">TEAMS / 已出发连队</div><div class="v"><span id="kTeam">0</span><small>/ 5 支</small></div></div>
+      <div class="kpi"><div class="k">ARRIVALS / 到站记录</div><div class="v"><span id="kArr">0</span><small>次</small></div></div>
+      <div class="kpi"><div class="k">ACCURACY / 平均正确率</div><div class="v"><span id="kAcc">—</span><small>%</small></div></div>
+      <div class="kpi"><div class="k">LEADING / 领先连队</div><div class="v" id="kLead" style="font-size:clamp(20px,3.6vw,28px)">—</div></div>
+    </div>
+
+    <div class="board" id="matrixBox"></div>
+
+    <div class="board" style="margin-top:18px" id="rankBox"></div>
+
+    <div id="hint" class="empty" style="display:none">
+      <b>还没有数据。</b>点开下面的「值守录入」逐条登记；或在汇报、验收前点「载入演示数据」看完整效果。
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost on-dark sm" id="demoBtn">载入演示数据</button>
+      </div>
+    </div>
+
+    <div class="admin" id="admin">
+      <div class="admin-h" id="adminHead"><span>值守录入 · ADMIN</span><span id="adminArrow">展开 ＋</span></div>
+      <div class="admin-b">
+        <div class="row">
+          <div>
+            <label for="aTeam">连队</label>
+            <select id="aTeam"></select>
+          </div>
+          <div>
+            <label for="aStation">到站</label>
+            <select id="aStation"></select>
+          </div>
+          <div>
+            <label for="aMins">累计用时（分钟）</label>
+            <input id="aMins" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </div>
+          <div>
+            <label for="aScore">本题</label>
+            <select id="aScore"><option value="2">答对 +2</option><option value="0">答错 / 未答 0</option></select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="aCode">到站码（选填，便于核对）</label>
+          <input id="aCode" type="text" placeholder="例如 瑞01-4821" autocomplete="off">
+        </div>
+        <div class="acts">
+          <button class="btn sm" id="addBtn">记 录 到 站</button>
+          <button class="btn ghost on-dark sm" id="undoBtn">撤销该队最后一条</button>
+          <button class="btn ghost on-dark sm" id="exportBtn">导出 data.json</button>
+          <label class="btn ghost on-dark sm" style="cursor:pointer">导入 JSON<input type="file" id="importFile" accept="application/json" style="display:none"></label>
+          <button class="btn ghost on-dark sm" id="resetBtn">清空全部</button>
+        </div>
+        <div class="msg" id="msg"></div>
+        <p class="tip" style="color:var(--on-dim)">累计用时填“从出发到本站的总分钟数”，最后一站填的数字就是全队总用时。答对记 2 分、答错记 0 分，正确率按 2 分/站折算。</p>
+      </div>
+    </div>
+
+    <p class="tip" style="color:var(--on-dim);padding-bottom:26px">
+      大屏模式：右上角「大屏模式」切换到投屏版式；数据只存在这台电脑的浏览器里，换电脑请先导出、再导入。
+    </p>
+  </div>
+</section>
+
+<footer class="darkblk" style="border-top:1px solid rgba(237,229,216,.14)">
+  <div class="wrap" style="padding-top:22px;padding-bottom:30px;font-size:12px;color:var(--on-dim)">
+    2024级物联网工程团支部 · 数学与计算机科学学院 · 泉州师范学院
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  var boxM = document.getElementById('matrixBox');
+  var boxR = document.getElementById('rankBox');
+  var hint = document.getElementById('hint');
+  var data = CZ.load();
+
+  function pad(n){ return ('0'+n).slice(-2); }
+  function clock(){
+    var d = new Date();
+    var s = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+    document.getElementById('clock').textContent = s;
+    var c2 = document.getElementById('clock2'); if (c2) c2.textContent = s;
+  }
+  clock(); setInterval(clock, 1000);
+
+  function render(){
+    var rows = CZ.stats(data);
+    var arr = 0, sum = 0, cnt = 0, started = 0;
+    rows.forEach(function(r){
+      arr += r.arrived;
+      if (r.arrived){ started++; sum += r.rate; cnt++; }
+    });
+    document.getElementById('kTeam').textContent = started;
+    document.getElementById('kArr').textContent = arr;
+    document.getElementById('kAcc').textContent = cnt ? Math.round(sum / cnt) : '—';
+    document.getElementById('kLead').textContent = (rows[0] && rows[0].arrived) ? rows[0].name : '—';
+
+    // 矩阵
+    var m = document.createElement('table');
+    m.className = 'matrix';
+    var head = '<tr><th style="text-align:left">连队 / 站点</th>';
+    CZ.STATIONS.forEach(function(s){ head += '<th>' + s.no + '<br><span style="opacity:.6">' + s.name + '</span></th>'; });
+    head += '<th>进度</th></tr>';
+    m.innerHTML = head;
+    rows.forEach(function(r){
+      var tr = document.createElement('tr');
+      var cells = '<td class="name">' + r.name + '</td>';
+      var recs = data.teams[r.id].records || [];
+      CZ.STATIONS.forEach(function(s, i){
+        var hit = null;
+        recs.forEach(function(x){ if (x.s === s.id) hit = x; });
+        var cls = hit ? (i === recs.length - 1 ? 'dot last' : 'dot on') : 'dot';
+        cells += '<td><span class="' + cls + '"></span></td>';
+      });
+      cells += '<td class="num">' + r.arrived + ' / 6</td>';
+      tr.innerHTML = cells;
+      m.appendChild(tr);
+    });
+    boxM.innerHTML = '';
+    boxM.appendChild(m);
+
+    // 排名
+    var rk = document.createElement('table');
+    rk.className = 'rank';
+    rk.innerHTML = '<tr><th>名次</th><th>连队</th><th>到站</th><th>总用时</th><th>正确率</th><th>最近一站</th></tr>';
+    rows.forEach(function(r){
+      var tr = document.createElement('tr');
+      if (r.rank === 1 && r.arrived) tr.className = 'top';
+      var last = r.last ? (CZ.station(r.last.s) ? CZ.station(r.last.s).name : r.last.s) : '—';
+      var time = r.arrived ? r.mins + ' 分' : '—';
+      tr.innerHTML = '<td class="num">' + (r.arrived ? r.rank : '—') + '</td>' +
+        '<td><span class="chip" style="border-color:' + r.color + '">' + r.name + '</span></td>' +
+        '<td class="num">' + r.arrived + ' / 6</td>' +
+        '<td class="num">' + time + '</td>' +
+        '<td class="num">' + (r.arrived ? r.rate + '%' : '—') + '</td>' +
+        '<td class="num">' + last + '</td>';
+      rk.appendChild(tr);
+    });
+    boxR.innerHTML = '';
+    boxR.appendChild(rk);
+
+    hint.style.display = arr ? 'none' : 'block';
+  }
+
+  // 录入面板
+  var aTeam = document.getElementById('aTeam'), aSt = document.getElementById('aStation');
+  CZ.TEAMS.forEach(function(t){ var o=document.createElement('option'); o.value=t.id; o.textContent=t.name; aTeam.appendChild(o); });
+  CZ.STATIONS.forEach(function(s){ var o=document.createElement('option'); o.value=s.id; o.textContent=s.no+' '+s.name; aSt.appendChild(o); });
+
+  var admin = document.getElementById('admin');
+  document.getElementById('adminHead').addEventListener('click', function(){
+    admin.classList.toggle('open');
+    document.getElementById('adminArrow').textContent = admin.classList.contains('open') ? '收起 －' : '展开 ＋';
+  });
+
+  function msg(t){ document.getElementById('msg').textContent = t; }
+
+  document.getElementById('addBtn').addEventListener('click', function(){
+    var t = aTeam.value, s = aSt.value;
+    var mins = Math.max(0, parseInt(document.getElementById('aMins').value || '0', 10));
+    var score = parseInt(document.getElementById('aScore').value, 10);
+    var code = document.getElementById('aCode').value.trim();
+    var recs = data.teams[t].records;
+    if (recs.length >= 6) { msg('该队六站已满，如需重录请先撤销。'); return; }
+    // 防重复：同一站已记录
+    var dup = false;
+    recs.forEach(function(x){ if (x.s === s) dup = true; });
+    if (dup) { msg('该队这一站已经记录过了。'); return; }
+    if (mins === 0) { msg('提示：累计用时为 0 分钟，确认无误可继续。'); }
+    recs.push({s:s, mins:mins, score:score, code:code, at:Date.now()});
+    CZ.save(data);
+    render();
+    document.getElementById('aCode').value = '';
+    document.getElementById('aMins').value = mins;
+    msg('已记录：' + CZ.team(t).name + ' · ' + CZ.station(s).name);
+  });
+
+  document.getElementById('undoBtn').addEventListener('click', function(){
+    var recs = data.teams[aTeam.value].records;
+    if (!recs.length) { msg('该队还没有记录。'); return; }
+    var gone = recs.pop();
+    CZ.save(data); render();
+    msg('已撤销：' + (CZ.station(gone.s) ? CZ.station(gone.s).name : gone.s));
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if (!confirm('将清空这台电脑上的全部到站记录，确定吗？')) return;
+    CZ.reset(); data = CZ.load(); render(); msg('已清空。');
+  });
+
+  document.getElementById('exportBtn').addEventListener('click', function(){
+    var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'data.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    msg('已导出 data.json。');
+  });
+
+  document.getElementById('importFile').addEventListener('change', function(e){
+    var f = e.target.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      try {
+        var o = JSON.parse(rd.result);
+        if (!o.teams) throw new Error('格式不对');
+        CZ.TEAMS.forEach(function(t){ if (!o.teams[t.id]) o.teams[t.id] = {records:[]}; });
+        data = o; CZ.save(data); render(); msg('导入成功。');
+      } catch(err){ msg('导入失败：' + err.message); }
+    };
+    rd.readAsText(f);
+  });
+
+  document.getElementById('demoBtn').addEventListener('click', function(){
+    var demo = {teams:{}, updated:Date.now(), demo:true};
+    var base = [0, 12, 26, 39, 51, 63];
+    CZ.TEAMS.forEach(function(t, idx){
+      var n = 6 - (idx % 3) * 2;
+      if (idx === 4) n = 4;
+      var recs = [];
+      for (var i=0;i<n;i++){
+        recs.push({s: CZ.STATIONS[i].id, mins: base[i] + idx*3 + (i%2)*2,
+          score: (idx === 1 && i === 2) ? 0 : 2, code:'—', at: Date.now() - (6-i)*60000});
+      }
+      demo.teams[t.id] = {records: recs};
+    });
+    data = demo; CZ.save(data); render();
+    msg('已载入演示数据（5 支连队，供验收与汇报演示）。');
+  });
+
+  document.getElementById('bigBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    var on = !document.body.classList.contains('big');
+    document.body.classList.toggle('big', on);
+    this.textContent = on ? '退出大屏' : '大屏模式';
+  });
+
+  // 同机多标签同步
+  setInterval(function(){
+    var fresh = CZ.load();
+    if ((fresh.updated || 0) !== (data.updated || 0)) { data = fresh; render(); }
+  }, 4000);
+
+  render();
+})();
+</script>
+</body>
+</html>
