@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11100E">
+<title>打卡 · 重走长征路校园智行挑战赛</title>
+<meta name="description" content="扫码打卡：选连队、读史料、答一题，生成到站码，报给值守同学即完成登记。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%2311100E'/%3E%3Cpath d='M12 46 L26 30 L38 38 L52 16' stroke='%23C2402C' stroke-width='4' fill='none'/%3E%3Ccircle cx='52' cy='16' r='5' fill='%23BE8C46'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="index.html">
+    <svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="3" fill="#A92D20"/><path d="M5 24 L13 15 L19 19 L27 7" stroke="#EFE7D8" stroke-width="2" fill="none"/><circle cx="27" cy="7" r="2.4" fill="#BE8C46"/></svg>
+    <b>站点打卡</b><small>CHECK IN</small>
+  </a>
+  <nav>
+    <a href="index.html">赛制</a>
+    <a href="checkin.html" class="on">扫码打卡</a>
+    <a href="kanban.html">云端看板</a>
+    <a href="report.html">行军战报</a>
+  </nav>
+</header>
+
+<section class="checkin-head">
+  <div class="wrap" style="padding-top:0;padding-bottom:0">
+    <div class="st" id="stTag">STATION · LOADING</div>
+    <h1 id="stName">正在读取站点…</h1>
+    <p class="sub" id="stSub"></p>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="wrap" style="padding-top:0;padding-bottom:0">
+
+    <div class="block">
+      <h3>这一站</h3>
+      <p id="stIntro"></p>
+      <p style="margin-top:8px;color:#7E1F16;font-size:13px" id="stTask"></p>
+    </div>
+
+    <div class="field">
+      <label for="teamSel">选择你的连队</label>
+      <select id="teamSel"></select>
+    </div>
+
+    <div class="block" style="margin-top:16px">
+      <h3 id="qTitle">本 站 一 题</h3>
+      <p id="qText" style="font-family:var(--serif);font-size:16px"></p>
+      <div class="opt" id="optBox"></div>
+      <p class="fb" id="fb"></p>
+      <div style="margin-top:14px">
+        <button class="btn" id="submitBtn" disabled>答对后生成到站码</button>
+      </div>
+      <p class="tip">答错不要紧：看完解析可以再选一次，第二次答对仍记 2 分；两次都错记 0 分，但仍可完成打卡。</p>
+    </div>
+
+    <div class="code" id="codeBox">
+      <div class="k">ARRIVAL CODE / 到站码</div>
+      <div class="v" id="codeVal">—</div>
+      <div class="t" id="codeTip"></div>
+    </div>
+
+    <div class="block" id="doneBlock" style="display:none">
+      <h3>报码三步</h3>
+      <p>① 把连队名、站点名、到站码报给值守同学；<br>② 告诉他本题得分（答对 +2 / 答错 0）；<br>③ 值守在总控台录入，大屏上的进度条就会亮起。</p>
+    </div>
+
+    <div style="margin-top:16px">
+      <label style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:#9C9184">本机已打卡的点位</div>
+      <div class="prog" id="prog"></div>
+    </div>
+
+    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn ghost" href="kanban.html">去看板</a>
+      <a class="btn ghost" href="index.html">回到赛制</a>
+    </div>
+
+    <p class="tip" style="padding-bottom:28px">本页不需要注册或密码，数据只存在你的手机里，不会上传；生成的到站码仅供现场值守登记使用。</p>
+  </div>
+</section>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  // 站点
+  var qs = new URLSearchParams(location.search);
+  var sid = qs.get('s') || qs.get('station') || 'ruijin';
+  var st = CZ.station(sid) || CZ.STATIONS[0];
+  if (!CZ.station(sid)) {
+    var pick = prompt('未识别站点，请输入站点编号（1—6）：', '1');
+    var idx = Math.max(1, Math.min(6, parseInt(pick || '1', 10))) - 1;
+    st = CZ.STATIONS[idx];
+  }
+
+  document.getElementById('stTag').textContent = 'STATION ' + st.no + ' / 06 · ' + st.date;
+  document.getElementById('stName').textContent = st.name;
+  document.getElementById('stSub').textContent = st.place + ' · 累计里程 ' + st.dist;
+  document.getElementById('stIntro').textContent = st.intro;
+  document.getElementById('stTask').textContent = '现场任务：' + st.task;
+
+  // 连队
+  var sel = document.getElementById('teamSel');
+  var savedTeam = '';
+  try { savedTeam = localStorage.getItem('czsz-team') || ''; } catch(e){}
+  CZ.TEAMS.forEach(function(t){
+    var o = document.createElement('option');
+    o.value = t.id; o.textContent = t.name;
+    if (t.id === savedTeam) o.selected = true;
+    sel.appendChild(o);
+  });
+  sel.addEventListener('change', function(){ try { localStorage.setItem('czsz-team', sel.value); } catch(e){} });
+
+  // 本机已打卡
+  var visitKey = 'czsz-visited';
+  function visits(){
+    try { return JSON.parse(localStorage.getItem(visitKey) || '[]') || []; } catch(e){ return []; }
+  }
+  function paintProg(){
+    var box = document.getElementById('prog'), v = visits();
+    box.innerHTML = '';
+    CZ.STATIONS.forEach(function(s){
+      var sp = document.createElement('span');
+      sp.textContent = s.no + ' ' + s.name;
+      if (v.indexOf(s.id) >= 0) sp.className = 'on';
+      box.appendChild(sp);
+    });
+  }
+  paintProg();
+
+  // 题目
+  var tries = 0, answered = false, got = false, choice = -1;
+  document.getElementById('qText').textContent = st.q.q;
+  var optBox = document.getElementById('optBox');
+  var fb = document.getElementById('fb');
+  var btn = document.getElementById('submitBtn');
+
+  st.q.opts.forEach(function(text, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = String.fromCharCode(65 + i) + '. ' + text;
+    b.addEventListener('click', function(){
+      if (got) return;
+      choice = i;
+      Array.prototype.forEach.call(optBox.children, function(c){ c.classList.remove('sel'); });
+      b.classList.add('sel');
+      tries++;
+      if (i === st.q.a){
+        got = true; answered = true;
+        b.classList.add('ok');
+        fb.className = 'fb ok';
+        fb.textContent = '答对了，本题 +2 分。' + st.q.note;
+        btn.disabled = false;
+        btn.textContent = '生成到站码（答对 +2）';
+      } else {
+        fb.className = 'fb';
+        fb.textContent = '再想想。提示：' + st.q.note.replace(/^.*?，/, '').slice(0, 40) + '…';
+        if (tries >= 2){
+          answered = true; got = false;
+          fb.textContent = '两次机会用完，本题记 0 分，但仍可完成打卡。解析：' + st.q.note;
+          btn.disabled = false;
+          btn.textContent = '生成到站码（本题 0 分）';
+        }
+      }
+    });
+    optBox.appendChild(b);
+  });
+
+  // 生成到站码
+  btn.addEventListener('click', function(){
+    if (!answered) return;
+    var code = CZ.makeCode(sel.value, st.id);
+    document.getElementById('codeVal').textContent = code;
+    var t = CZ.team(sel.value);
+    document.getElementById('codeTip').textContent = t.name + ' · ' + st.name + ' · 本题 ' + (got ? '+2' : '0') + ' 分';
+    document.getElementById('codeBox').classList.add('on');
+    document.getElementById('doneBlock').style.display = 'block';
+    btn.disabled = true;
+    btn.textContent = '已完成打卡';
+
+    var v = visits();
+    if (v.indexOf(st.id) < 0) { v.push(st.id); try { localStorage.setItem(visitKey, JSON.stringify(v)); } catch(e){} }
+    paintProg();
+    setTimeout(function(){ document.getElementById('codeBox').scrollIntoView({behavior:'smooth', block:'center'}); }, 60);
+  });
+
+  // 本机已打卡该站时，直接给提示
+  if (visits().indexOf(st.id) >= 0){
+    fb.className = 'fb';
+    fb.textContent = '这台手机已经在这站打过卡了。若换了连队，重新答一题即可再生成一枚到站码。';
+  }
+})();
+</script>
+</body>
+</html>
